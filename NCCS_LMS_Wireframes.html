@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NCCS Climate Change 101 — Interactive Activities</title>
+<style>
+/* —— TOKENS —————————————————————————————————————————— */
+:root{
+  --lms-bg:#F1F4F8;
+  --lms-chrome:#FFFFFF;
+  --lms-border:#DDE3EC;
+  --lms-bc-text:#64748B;
+
+  --br:#E07B2A;--br-lt:#FFF7ED;--br-md:#FED7AA;
+  --mn:#1E3A5F;
+  --tl:#065F46;--tl-lt:#ECFDF5;--tl-bd:#6EE7B7;
+  --surf:#FFFFFF;--bd:#E5DFD7;--bd-lt:#F0EBE3;
+  --tx1:#0F172A;--tx2:#475569;--tx3:#94A3B8;
+  --bl:#1D4ED8;--bl-lt:#EFF6FF;--bl-bd:#BFDBFE;
+  --gr:#15803D;--gr-lt:#F0FDF4;--gr-bd:#86EFAC;
+  --rd:#B91C1C;--rd-lt:#FEF2F2;--rd-bd:#FCA5A5;
+  --am:#92400E;--am-lt:#FFFBEB;--am-bd:#FCD34D;
+  --r:14px;--r-sm:10px;--r-xs:8px;
+  --sh:0 1px 3px rgba(0,0,0,.07),0 2px 6px rgba(0,0,0,.04);
+  --sh-sm:0 1px 2px rgba(0,0,0,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;background:var(--lms-bg);color:var(--tx1);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+
+/* —— LMS BREADCRUMB —————————————————————————————————— */
+.lms-bc{background:var(--lms-chrome);border-bottom:1px solid var(--lms-border);padding:9px 0}
+.lms-bc-inner{max-width:920px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--lms-bc-text)}
+.bc-link{color:var(--bl);text-decoration:none;font-weight:500}
+.bc-link:hover{text-decoration:underline}
+.bc-sep{color:#CBD5E1}
+.bc-cur{color:var(--tx2);font-weight:500}
+
+/* —— ACTIVITY STEPPER ———————————————————————————————— */
+.stepper-wrap{background:var(--lms-chrome);border-bottom:1px solid var(--lms-border)}
+.stepper-inner{max-width:920px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:0}
+.step-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 8px;background:none;border:none;cursor:pointer;font-family:inherit;border-bottom:3px solid transparent;transition:all .2s;position:relative}
+.step-btn:hover:not(.s-current){background:#F8FAFC}
+.step-btn.s-current{border-bottom-color:var(--br)}
+.step-btn.s-done{cursor:pointer}
+.step-circle{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;border:2px solid #CBD5E1;color:#94A3B8;background:white;transition:all .2s}
+.step-btn.s-current .step-circle{border-color:var(--br);background:var(--br);color:white}
+.step-btn.s-done .step-circle{border-color:var(--gr);background:var(--gr);color:white}
+.step-name{font-size:10.5px;font-weight:500;color:var(--tx3);white-space:nowrap;transition:color .2s}
+.step-btn.s-current .step-name{color:var(--br);font-weight:600}
+.step-btn.s-done .step-name{color:var(--gr)}
+.step-conn{width:32px;height:2px;background:#E2E8F0;flex-shrink:0;margin-bottom:16px}
+.step-conn.s-done{background:var(--gr)}
+
+/* —— ACTIVITY CARD ——————————————————————————————————— */
+.act-outer{max-width:920px;margin:24px auto;padding:0 24px 40px}
+.act-card{background:var(--surf);border:1px solid var(--lms-border);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
+
+/* Activity header */
+.act-hdr{padding:24px 28px;border-bottom:1px solid var(--lms-border)}
+.act-meta{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.act-tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);background:#F1F5F9;padding:3px 10px;border-radius:20px}
+.act-time{font-size:11.5px;color:var(--tx3);display:flex;align-items:center;gap:4px}
+.act-num{font-size:11.5px;color:var(--tx3);margin-left:auto;font-weight:500}
+.act-title{font-size:21px;font-weight:700;color:var(--tx1);letter-spacing:-.35px;line-height:1.2;margin:0 0 14px}
+.objective-box{background:var(--bl-lt);border:1px solid var(--bl-bd);border-radius:var(--r-sm);padding:12px 16px;display:flex;gap:10px;align-items:flex-start;margin-bottom:14px}
+.obj-icon{font-size:15px;flex-shrink:0;margin-top:1px}
+.obj-text{font-size:13px;color:#1E3A8A;line-height:1.55}
+.obj-text strong{font-weight:700}
+.inst-toggle{background:none;border:1px solid var(--lms-border);padding:6px 14px;border-radius:var(--r-xs);font-size:12.5px;font-weight:500;cursor:pointer;color:var(--tx2);font-family:inherit;display:flex;align-items:center;gap:6px;transition:all .15s}
+.inst-toggle:hover{background:#F8FAFC;border-color:#CBD5E1}
+.inst-toggle.open{background:#F8FAFC}
+.inst-arrow{transition:transform .2s;font-size:10px}
+.inst-toggle.open .inst-arrow{transform:rotate(180deg)}
+.inst-panel{display:none;margin-top:12px;background:#F8FAFC;border:1px solid var(--lms-border);border-radius:var(--r-sm);padding:14px 16px}
+.inst-panel p{font-size:13px;color:var(--tx2);line-height:1.6}
+
+/* Activity content */
+.act-body{padding:28px}
+
+/* Completion footer */
+.act-footer{border-top:1px solid var(--lms-border);padding:16px 28px;background:#FAFBFD;display:flex;align-items:center;justify-content:space-between;gap:16px;position:sticky;bottom:0;z-index:10}
+.comp-left{display:flex;align-items:center;gap:12px;flex:1}
+.comp-status-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;font-weight:700;transition:all .3s}
+.cs-incomplete{background:#F1F5F9;color:#94A3B8;border:2px solid #CBD5E1}
+.cs-inprogress{background:#FFF7ED;color:var(--br);border:2px solid var(--br-md)}
+.cs-complete{background:var(--gr);color:white;border:2px solid var(--gr)}
+.comp-text{}
+.comp-label{font-size:12.5px;font-weight:600;color:var(--tx2)}
+.comp-hint{font-size:11px;color:var(--tx3);margin-top:1px}
+.comp-prog-wrap{flex:1;max-width:200px}
+.comp-prog-bar{height:5px;background:#E2E8F0;border-radius:3px;overflow:hidden;margin-top:5px}
+.comp-prog-fill{height:100%;background:var(--br);border-radius:3px;transition:width .4s}
+.btn-complete{background:var(--mn);color:white;border:none;padding:10px 22px;border-radius:var(--r-xs);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.btn-complete:hover:not(:disabled){background:#162D4A;box-shadow:0 3px 10px rgba(30,58,95,.3);transform:translateY(-1px)}
+.btn-complete:disabled{background:#CBD5E1;color:#94A3B8;cursor:default;transform:none;box-shadow:none}
+.btn-complete.done{background:var(--gr)}
+.btn-complete.done:hover{background:#166534;box-shadow:0 3px 10px rgba(21,128,61,.3)}
+
+/* —— PANEL show/hide ————————————————————————————————— */
+.pnl{display:none}.pnl.on{display:block}
+
+/* —— CARD COMPONENTS ————————————————————————————————— */
+.card{background:var(--surf);border:1px solid var(--bd);border-radius:var(--r);padding:20px 24px;box-shadow:var(--sh-sm)}
+.card-bare{background:var(--surf);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-sm)}
+.c-info{background:var(--bl-lt);border-color:var(--bl-bd);box-shadow:none}
+.c-teal{background:var(--tl-lt);border-color:var(--tl-bd);box-shadow:none}
+.c-warn{background:var(--am-lt);border-color:var(--am-bd);box-shadow:none}
+.c-err{background:var(--rd-lt);border-color:var(--rd-bd);box-shadow:none}
+.iq{background:var(--tl-lt);border:1px solid var(--tl-bd);border-radius:var(--r-sm);padding:14px 16px;display:flex;gap:12px}
+.iq-icon{width:30px;height:30px;border-radius:50%;background:var(--tl);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;margin-top:1px}
+.iq-label{font-size:10px;font-weight:700;color:var(--tl);text-transform:uppercase;letter-spacing:.09em;margin-bottom:5px}
+.iq-p,.iq p{font-size:12.5px;color:#047857;line-height:1.65;margin:0}
+.badge{display:inline-flex;align-items:center;font-size:10.5px;padding:3px 10px;border-radius:20px;font-weight:600}
+.b-bl{background:var(--bl-lt);color:var(--bl)}.b-tl{background:var(--tl-lt);color:var(--tl)}
+.b-or{background:var(--br-lt);color:#9A3412}.b-re{background:var(--rd-lt);color:var(--rd)}
+.b-gr{background:var(--gr-lt);color:var(--gr)}.b-am{background:var(--am-lt);color:var(--am)}
+.div{height:1px;background:var(--bd);margin:20px 0}
+.btn{background:var(--br);color:#fff;border:none;padding:10px 20px;border-radius:var(--r-xs);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;box-shadow:0 1px 3px rgba(224,123,42,.3)}
+.btn:hover{opacity:.9;box-shadow:0 3px 8px rgba(224,123,42,.35);transform:translateY(-1px)}
+.ghost{background:var(--surf);border:1px solid var(--bd);padding:9px 16px;border-radius:var(--r-xs);font-size:13px;font-weight:500;cursor:pointer;color:var(--tx2);font-family:inherit;transition:all .15s;box-shadow:var(--sh-sm)}
+.ghost:hover{background:#FAFAF8;border-color:#D4CEC5}
+.ghost-sm{padding:6px 12px;font-size:12px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.steps{display:flex;align-items:center;margin-bottom:24px;background:var(--surf);border:1px solid var(--bd);border-radius:var(--r);padding:10px 16px;box-shadow:var(--sh-sm)}
+.step{display:flex;align-items:center;gap:7px;padding:6px 12px;border-radius:var(--r-sm);font-size:12px;font-weight:500;flex-shrink:0;transition:all .2s}
+.step.on{background:var(--br-lt);color:var(--br)}.step.done{background:var(--tl-lt);color:var(--tl)}.step.off{color:var(--tx3)}
+.step-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
+.step.on .step-num{background:var(--br);color:white}.step.done .step-num{background:var(--tl);color:white}.step.off .step-num{background:#E5E7EB;color:var(--tx3)}
+.step-line{flex:1;height:1px;background:var(--bd);min-width:8px}
+/* Sort */
+.zone-card{background:var(--surf);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-sm);display:flex;flex-direction:column}
+.zone-hdr{padding:12px 16px;border-bottom:1px solid var(--bd-lt)}
+.zone-hdr-mit{border-top:3px solid var(--bl)}.zone-hdr-ada{border-top:3px solid #F59E0B}.zone-hdr-both{border-top:3px solid #22C55E}
+.szone{flex:1;min-height:148px;padding:10px;display:flex;flex-direction:column;gap:6px;transition:background .15s;cursor:pointer;position:relative}
+.szone:hover{background:#FAFAF8}.szone.over{background:var(--br-lt)}
+.szone:empty::before{content:"Drop or click to place";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--tx3);font-style:italic;pointer-events:none}
+.sort-card{border:1px solid var(--bd);border-radius:var(--r-xs);padding:9px 12px;font-size:12.5px;line-height:1.45;display:flex;align-items:flex-start;gap:8px;color:var(--tx1);transition:all .15s;cursor:pointer;background:var(--surf);box-shadow:var(--sh-sm)}
+.sort-card:hover{background:#FAFAF8;border-color:#D4CEC5}.sort-card.sort-sel{border-color:var(--br)!important;box-shadow:0 0 0 3px var(--br-md)!important;background:var(--br-lt)!important}
+.grip{color:#D1D5DB;font-size:15px;flex-shrink:0;margin-top:1px;user-select:none}
+/* Player */
+.player{display:flex;align-items:center;gap:10px;padding-top:10px;margin-top:10px;border-top:1px solid var(--bd-lt)}
+.play-btn{width:30px;height:30px;border-radius:50%;background:var(--br);color:white;border:none;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;font-family:inherit}
+.play-btn:hover{opacity:.88;transform:scale(1.05)}
+.track{flex:1;height:5px;background:var(--bd);border-radius:3px;overflow:hidden}
+.track-fill{height:100%;background:var(--br);border-radius:3px;transition:width .12s linear}
+.play-time{font-size:11px;color:var(--tx3);white-space:nowrap;min-width:70px;text-align:right;font-variant-numeric:tabular-nums}
+/* Progress */
+.pbar-wrap{height:7px;background:var(--bd);border-radius:4px;overflow:hidden}
+.pbar-fill{height:100%;background:linear-gradient(90deg,var(--br),#F59E0B);border-radius:4px;transition:width .4s}
+/* Community pills */
+.cm-pill{display:inline-flex;align-items:center;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:500;cursor:pointer;border:1px solid var(--bd);background:var(--surf);font-family:inherit;transition:all .15s;white-space:nowrap}
+.cm-pill:hover:not(.cm-act){background:#F3EFE8;border-color:#D4CEC5}
+.cm-act{background:var(--mn)!important;color:white!important;border-color:var(--mn)!important}
+.cm-vis:not(.cm-act){border-color:var(--bl-bd);color:var(--bl);background:var(--bl-lt)}
+/* Nav */
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:14px;border-top:1px solid var(--bd-lt)}
+.nav-btn{background:var(--surf);border:1px solid var(--bd);padding:6px 14px;border-radius:var(--r-xs);font-size:12px;font-weight:500;cursor:pointer;color:var(--tx2);font-family:inherit;transition:all .15s}
+.nav-btn:hover:not(:disabled){background:#F3EFE8;border-color:#D4CEC5}
+.nav-btn:disabled{opacity:.28;cursor:default}
+.nav-ct{font-size:11.5px;color:var(--tx3)}
+/* Quiz */
+.qbtn{text-align:left;padding:11px 14px;font-size:13px;cursor:pointer;border-radius:var(--r-xs);width:100%;border:1.5px solid var(--bd);background:var(--surf);font-family:inherit;transition:all .15s;margin-bottom:8px;display:flex;align-items:center;gap:11px;color:var(--tx1);box-shadow:var(--sh-sm)}
+.qbtn:hover:not(:disabled){background:#FAFAF8;border-color:#D4CEC5;transform:translateX(2px)}
+.qbtn.correct{background:var(--gr-lt);border-color:var(--gr-bd);color:var(--gr);box-shadow:none;transform:none}
+.qbtn.wrong{background:var(--rd-lt);border-color:var(--rd-bd);color:var(--rd);box-shadow:none;transform:none}
+.q-dot{width:17px;height:17px;border-radius:50%;border:2px solid #D1D5DB;flex-shrink:0;background:transparent;transition:all .15s}
+.qbtn.correct .q-dot{background:var(--gr);border-color:var(--gr)}.qbtn.wrong .q-dot{background:var(--rd);border-color:var(--rd)}
+/* Map legend */
+.map-legend{padding:10px 18px;border-top:1px solid var(--bd-lt);background:#FAFAF8;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+/* Animations */
+@keyframes arFlow{from{stroke-dashoffset:16}to{stroke-dashoffset:0}}
+.ar-solar{stroke-dasharray:14 5;animation:arFlow 2s linear infinite}
+.ar-ir-up{stroke-dasharray:14 5;animation:arFlow 1.5s linear infinite}
+.ar-ir-dn{stroke-dasharray:8 4;animation:arFlow 2.5s linear infinite}
+#e0,#e1,#e2,#e3,#e4,#e5{transition:fill .38s ease,stroke .38s ease,opacity .38s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}15%{transform:translateX(-8px)}35%{transform:translateX(8px)}55%{transform:translateX(-5px)}75%{transform:translateX(4px)}}
+.shake{animation:shake .44s ease}
+@keyframes hintPulse{0%,100%{background:var(--surf)}50%{background:var(--br-lt)}}
+.hint-header{animation:hintPulse .9s ease 4}.zone-hint{background:var(--br-lt)!important}
+/* Complete banner */
+.complete-banner{background:var(--gr-lt);border:1px solid var(--gr-bd);border-radius:var(--r-sm);padding:14px 18px;display:flex;align-items:center;gap:12px;margin-top:20px}
+.cb-icon{width:36px;height:36px;border-radius:50%;background:var(--gr);color:white;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.cb-text p:first-child{font-size:14px;font-weight:700;color:#064E3B;margin:0 0 2px}
+.cb-text p:last-child{font-size:12.5px;color:#065F46;margin:0;line-height:1.5}
+
+/* —————————————————————————————————————————————————————————
+   MOBILE RESPONSIVE  ≤ 680px
+————————————————————————————————————————————————————————— */
+
+/* Mobile stepper */
+.stepper-mobile{display:none;align-items:center;justify-content:space-between;padding:10px 18px;background:var(--lms-chrome);border-bottom:1px solid var(--lms-border)}
+.smp-btn{background:none;border:1px solid var(--lms-border);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--tx2);flex-shrink:0;transition:all .15s;font-family:inherit}
+.smp-btn:hover{background:#F1F5F9}.smp-btn:disabled{opacity:.28;cursor:default}
+.smp-info{text-align:center;flex:1}
+.smp-label{font-size:12.5px;font-weight:600;color:var(--tx1)}
+.smp-sub{font-size:11px;color:var(--tx3);margin-top:2px}
+.smp-dots{display:flex;justify-content:center;gap:5px;margin-top:6px}
+.smd{width:8px;height:8px;border-radius:50%;background:#E2E8F0;transition:all .2s}
+.smd.cur{background:var(--br);width:20px;border-radius:4px}
+.smd.done{background:var(--gr)}
+
+@media (max-width:680px){
+  /* Show mobile stepper, hide desktop stepper */
+  .stepper-wrap{display:none}
+  .stepper-mobile{display:flex}
+
+  /* Reduce outer padding */
+  .act-outer{padding:10px 12px 32px}
+  .act-hdr{padding:16px 18px}
+  .act-body{padding:16px 18px}
+  .act-footer{padding:12px 18px;flex-wrap:wrap;gap:10px}
+
+  /* Typography */
+  .act-title{font-size:18px;letter-spacing:-.2px}
+  .pnl-h,.ph{font-size:18px}
+
+  /* All grids → single column */
+  .g2,.g3{grid-template-columns:1fr!important}
+
+  /* Inline two-column grids → stack */
+  [style*="grid-template-columns:1fr 306px"],
+  [style*="grid-template-columns:1fr 326px"],
+  [style*="grid-template-columns:1fr 318px"],
+  [style*="grid-template-columns:1fr 300px"],
+  [style*="grid-template-columns:278px 1fr"]{
+    grid-template-columns:1fr!important;
+  }
+
+  /* Completion footer: stack vertically */
+  .act-footer{align-items:stretch}
+  .comp-left{flex-wrap:wrap;gap:8px}
+  .comp-prog-wrap{flex:0 0 100%;order:4;max-width:none}
+  .btn-complete{width:100%;justify-content:center;padding:12px}
+
+  /* IQ callout: icon stays inline */
+  .iq-icon{width:26px;height:26px;font-size:11px;flex-shrink:0}
+
+  /* Objective box */
+  .objective-box{align-items:flex-start}
+
+  /* Step wizard inside harvest */
+  .steps{padding:8px 10px;gap:0}
+  .step{padding:5px 8px;font-size:11px}
+  .step-line{min-width:4px}
+
+  /* Sort deck: full width cards */
+  .sort-card{font-size:13px}
+
+  /* Map legend: wrap tightly */
+  .map-legend{gap:6px;padding:8px 14px}
+  .map-legend span{font-size:10.5px}
+
+  /* Zone cards: reduce padding */
+  .zone-hdr{padding:10px 14px}
+  .szone{min-height:80px}
+
+  /* Quiz buttons */
+  .qbtn{padding:10px 12px;font-size:12.5px}
+
+  /* Nav row */
+  .nav-row{gap:8px}
+  .nav-btn{padding:6px 10px;font-size:11.5px}
+
+  /* Activity meta row: wrap */
+  .act-meta{flex-wrap:wrap;gap:6px}
+  .act-num{margin-left:0}
+
+  /* Breadcrumb: truncate middle items */
+  .lms-bc-inner .bc-link:not(:last-of-type){display:none}
+  .lms-bc-inner .bc-sep:first-of-type{display:none}
+
+  /* SVG maps: ensure they don't overflow */
+  svg{max-width:100%}
+
+  /* Progress bar on footer: full width */
+  .comp-prog-bar{height:6px}
+
+  /* Instructions panel */
+  .inst-panel p{font-size:12.5px}
+
+  /* Card padding reduction */
+  .card{padding:14px 16px}
+}
+
+@media (max-width:420px){
+  .act-outer{padding:8px 8px 24px}
+  .act-hdr{padding:14px}
+  .act-body{padding:14px}
+  .act-footer{padding:10px 14px}
+  .act-title{font-size:16px}
+  .step{padding:4px 6px;font-size:10.5px}
+}
+</style>
+</head>
+<body>
+
+<!-- Breadcrumb -->
+<nav class="lms-bc">
+  <div class="lms-bc-inner">
+    <a href="#" class="bc-link">Climate Change 101</a>
+    <span class="bc-sep">&#8250;</span>
+    <a href="#" class="bc-link">Module 2</a>
+    <span class="bc-sep">&#8250;</span>
+    <span class="bc-cur" id="bcCurrent">Greenhouse effect diagram</span>
+  </div>
+</nav>
+
+<!-- Activity stepper -->
+<div class="stepper-wrap"><div class="stepper-inner"><button class="step-btn s-current" id="step0" onclick="sw(0)"><div class="step-circle" id="stepC0">1</div><div class="step-name">Greenhouse</div></button><div class="step-conn" id="stepConn0"></div><button class="step-btn" id="step1" onclick="sw(1)"><div class="step-circle" id="stepC1">2</div><div class="step-name">Harvest</div></button><div class="step-conn" id="stepConn1"></div><button class="step-btn" id="step2" onclick="sw(2)"><div class="step-circle" id="stepC2">3</div><div class="step-name">Map</div></button><div class="step-conn" id="stepConn2"></div><button class="step-btn" id="step3" onclick="sw(3)"><div class="step-circle" id="stepC3">4</div><div class="step-name">Sort</div></button><div class="step-conn" id="stepConn3"></div><button class="step-btn" id="step4" onclick="sw(4)"><div class="step-circle" id="stepC4">5</div><div class="step-name">Closing</div></button></div></div>
+
+<div class="stepper-mobile" id="mobileStepBar">
+  <button class="smp-btn" id="smpPrev" onclick="prevAct()" disabled>&#8592;</button>
+  <div class="smp-info">
+    <p class="smp-label" id="smpLabel">Activity 1 of 5: Greenhouse effect</p>
+    <p class="smp-sub" id="smpSub">Diagram exploration &nbsp;&#183;&nbsp; 5 min</p>
+    <div class="smp-dots"><span class="smd cur" id="smd0"></span><span class="smd" id="smd1"></span><span class="smd" id="smd2"></span><span class="smd" id="smd3"></span><span class="smd" id="smd4"></span></div>
+  </div>
+  <button class="smp-btn" id="smpNext" onclick="nextAct()">&#8594;</button>
+</div>
+
+<!-- Activity panels -->
+
+<div class="pnl on" id="p0">
+  <div class="act-outer">
+    <div class="act-card">
+      <div class="act-hdr">
+  <div class="act-meta">
+    <span class="act-tag">Diagram exploration</span>
+    <span class="act-time">&#9201; 5 min</span>
+    <span class="act-num">Activity 1 of 5</span>
+  </div>
+  <h1 class="act-title">Greenhouse effect diagram</h1>
+  <div class="objective-box">
+    <span class="obj-icon">&#127919;</span>
+    <p class="obj-text"><strong>Learning objective:</strong> Explore the four zones of the greenhouse effect through both Western science explanations and Inuit Qaujimajatuqangit perspectives.</p>
+  </div>
+  <button class="inst-toggle" onclick="toggleInst(0)">
+    <span>Show instructions</span><span class="inst-arrow">&#9660;</span>
+  </button>
+  <div class="inst-panel" id="inst0">
+    <p>Click each numbered hotspot on the diagram to reveal its explanation panel. Use the &#8592; &#8594; arrows to cycle through all four zones. All four must be visited to complete this activity.</p>
+  </div>
+</div>
+      <div class="act-body">
+<div style="display:grid;grid-template-columns:1fr 306px;gap:20px;align-items:start">
+    <div class="card-bare">
+      <svg viewBox="0 0 500 345" width="100%" style="display:block">
+  <defs>
+    <marker id="ay" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0L7,3.5L0,7Z" fill="#B45309"/></marker>
+    <marker id="ar" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0L7,3.5L0,7Z" fill="#B91C1C"/></marker>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#DBEAFE"/><stop offset="100%" stop-color="#EFF6FF"/></linearGradient>
+    <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#DCFCE7"/><stop offset="100%" stop-color="#F0FDF4"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+
+  <!-- Backgrounds -->
+  <rect width="500" height="262" fill="url(#skyGrad)"/>
+  <rect y="74" width="500" height="60" fill="#BFDBFE" opacity=".55"/>
+  <rect y="262" width="500" height="83" fill="url(#groundGrad)"/>
+  <rect y="336" width="500" height="9" fill="#BBF7D0"/>
+
+  <!-- Region labels -->
+  <text x="92" y="27" font-size="9" fill="#1D4ED8" font-weight="600" font-family="sans-serif" letter-spacing=".5">UPPER ATMOSPHERE</text>
+  <text x="8" y="97" font-size="8.5" fill="#3B82F6" font-weight="600" font-family="sans-serif">GHG</text>
+  <text x="8" y="109" font-size="8.5" fill="#3B82F6" font-weight="600" font-family="sans-serif">LAYER</text>
+  <text x="8" y="277" font-size="8.5" fill="#15803D" font-weight="600" font-family="sans-serif">EARTH'S</text>
+  <text x="8" y="289" font-size="8.5" fill="#15803D" font-weight="600" font-family="sans-serif">SURFACE</text>
+
+  <!-- Sun -->
+  <circle cx="52" cy="44" r="28" fill="#FDE68A" filter="url(#glow)"/>
+  <circle cx="52" cy="44" r="22" fill="#FCD34D"/>
+  <text x="52" y="48" text-anchor="middle" font-size="9" font-weight="700" fill="#78350F" font-family="sans-serif">SUN</text>
+
+  <!-- Shortwave arrows -->
+  <line x1="86" y1="52" x2="162" y2="74" stroke="#D97706" stroke-width="2" marker-end="url(#ay)" class="ar-solar"/>
+  <line x1="98" y1="55" x2="222" y2="74" stroke="#D97706" stroke-width="2" marker-end="url(#ay)" class="ar-solar"/>
+  <line x1="110" y1="58" x2="286" y2="74" stroke="#D97706" stroke-width="2" marker-end="url(#ay)" class="ar-solar"/>
+  <line x1="168" y1="134" x2="181" y2="260" stroke="#D97706" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#ay)" opacity=".55"/>
+  <line x1="208" y1="134" x2="223" y2="260" stroke="#D97706" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#ay)" opacity=".55"/>
+
+  <!-- Longwave arrows -->
+  <line x1="264" y1="260" x2="278" y2="136" stroke="#DC2626" stroke-width="2" marker-end="url(#ar)" class="ar-ir-up"/>
+  <line x1="306" y1="260" x2="314" y2="136" stroke="#DC2626" stroke-width="2" marker-end="url(#ar)" class="ar-ir-up"/>
+  <line x1="348" y1="260" x2="350" y2="136" stroke="#DC2626" stroke-width="2" marker-end="url(#ar)" class="ar-ir-up"/>
+  <line x1="287" y1="136" x2="275" y2="260" stroke="#DC2626" stroke-width="1.3" opacity=".38" marker-end="url(#ar)" class="ar-ir-dn"/>
+  <line x1="325" y1="136" x2="313" y2="260" stroke="#DC2626" stroke-width="1.3" opacity=".38" marker-end="url(#ar)" class="ar-ir-dn"/>
+  <line x1="400" y1="260" x2="412" y2="136" stroke="#DC2626" stroke-width="1" opacity=".2" marker-end="url(#ar)"/>
+  <line x1="416" y1="136" x2="424" y2="44" stroke="#DC2626" stroke-width="1" stroke-dasharray="4,3" opacity=".16"/>
+
+  <!-- GHG molecules -->
+  <g filter="url(#glow)">
+    <circle cx="218" cy="100" r="8" fill="#FCA5A5"/><circle cx="218" cy="100" r="5" fill="#EF4444"/>
+    <text x="231" y="104" font-size="8.5" fill="#7F1D1D" font-family="sans-serif" font-weight="500">CO&#8322;</text>
+    <circle cx="286" cy="88" r="8" fill="#FCA5A5"/><circle cx="286" cy="88" r="5" fill="#EF4444"/>
+    <text x="299" y="92" font-size="8.5" fill="#7F1D1D" font-family="sans-serif" font-weight="500">CH&#8324;</text>
+    <circle cx="354" cy="104" r="8" fill="#FCA5A5"/><circle cx="354" cy="104" r="5" fill="#EF4444"/>
+    <text x="367" y="108" font-size="8.5" fill="#7F1D1D" font-family="sans-serif" font-weight="500">N&#8322;O</text>
+    <circle cx="424" cy="92" r="8" fill="#FCA5A5"/><circle cx="424" cy="92" r="5" fill="#EF4444"/>
+    <text x="437" y="96" font-size="8.5" fill="#7F1D1D" font-family="sans-serif" font-weight="500">H&#8322;O</text>
+  </g>
+
+  <!-- Hotspot 1 — Sun -->
+  <g id="hs0" onclick="selHS(0)" style="cursor:pointer">
+    <circle cx="52" cy="44" r="34" fill="#E07B2A" opacity=".12"/>
+    <circle cx="52" cy="44" r="34" fill="none" stroke="#E07B2A" stroke-width="2"/>
+    <circle cx="85" cy="12" r="12" fill="#E07B2A" id="hb0"/>
+    <text x="85" y="17" text-anchor="middle" font-size="11" font-weight="700" fill="white" font-family="sans-serif">1</text>
+  </g>
+
+  <!-- Hotspot 2 — GHG Layer -->
+  <g id="hs1" onclick="selHS(1)" style="cursor:pointer">
+    <rect x="148" y="72" width="308" height="62" fill="#E07B2A" opacity=".07" rx="8"/>
+    <rect x="148" y="72" width="308" height="62" fill="none" stroke="#E07B2A" stroke-width="2" rx="8"/>
+    <circle cx="462" cy="70" r="12" fill="#E07B2A" id="hb1"/>
+    <text x="462" y="75" text-anchor="middle" font-size="11" font-weight="700" fill="white" font-family="sans-serif">2</text>
+  </g>
+
+  <!-- Hotspot 3 — Surface -->
+  <g id="hs2" onclick="selHS(2)" style="cursor:pointer">
+    <rect x="148" y="266" width="178" height="66" fill="#E07B2A" opacity=".07" rx="8"/>
+    <rect x="148" y="266" width="178" height="66" fill="none" stroke="#E07B2A" stroke-width="2" rx="8"/>
+    <text x="162" y="286" font-size="8" fill="#C2410C" font-weight="600" font-family="sans-serif">Surface absorption</text>
+    <text x="162" y="299" font-size="7.5" fill="#C2410C" font-family="sans-serif">+ albedo feedback</text>
+    <circle cx="330" cy="264" r="12" fill="#E07B2A" id="hb2"/>
+    <text x="330" y="269" text-anchor="middle" font-size="11" font-weight="700" fill="white" font-family="sans-serif">3</text>
+  </g>
+
+  <!-- Hotspot 4 — Sources -->
+  <g id="hs3" onclick="selHS(3)" style="cursor:pointer">
+    <rect x="338" y="266" width="150" height="66" fill="#E07B2A" opacity=".07" rx="8"/>
+    <rect x="338" y="266" width="150" height="66" fill="none" stroke="#E07B2A" stroke-width="2" rx="8"/>
+    <text x="352" y="286" font-size="8" fill="#C2410C" font-weight="600" font-family="sans-serif">Human vs. natural</text>
+    <text x="352" y="299" font-size="7.5" fill="#C2410C" font-family="sans-serif">GHG sources</text>
+    <circle cx="490" cy="264" r="12" fill="#E07B2A" id="hb3"/>
+    <text x="490" y="269" text-anchor="middle" font-size="11" font-weight="700" fill="white" font-family="sans-serif">4</text>
+  </g>
+</svg>
+      <div class="map-legend">
+        <span style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--tx3)"><span style="width:18px;height:2.5px;background:#D97706;display:inline-block;border-radius:2px"></span>Shortwave (solar)</span>
+        <span style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--tx3)"><span style="width:18px;height:2.5px;background:#DC2626;display:inline-block;border-radius:2px"></span>Longwave (infrared)</span>
+        <span style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--tx3)"><span style="width:10px;height:10px;background:#EF4444;border-radius:50%;display:inline-block"></span>GHG molecule</span>
+        <span style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--tx3)"><span style="width:18px;border-top:2px dashed #CBD5E1;display:inline-block"></span>Partial / escaped</span>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div id="hsPanel" class="card" style="min-height:300px">
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:230px;gap:14px;text-align:center">
+          <div style="width:56px;height:56px;border-radius:50%;background:var(--br-lt);display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:var(--sh)">&#128070;</div>
+          <div><p style="font-size:15px;font-weight:700;color:var(--tx1);margin:0 0 6px">Select a hotspot</p><p style="font-size:12.5px;color:var(--tx3);max-width:165px;margin:0 auto;line-height:1.5">Click any numbered region on the diagram to explore it</p></div>
+        </div>
+        <div style="display:flex;justify-content:center;gap:16px;padding-top:14px;border-top:1px solid var(--bd-lt)">
+          <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx3)"><span style="width:9px;height:9px;border-radius:50%;background:var(--br);display:inline-block"></span>Unvisited</span>
+          <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx3)"><span style="width:9px;height:9px;border-radius:50%;background:#059669;display:inline-block"></span>Visited</span>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--tx3);font-style:italic;line-height:1.5;padding:0 2px">Full panel available in Inuktitut syllabics in the production build.</p>
+    </div>
+  </div>
+  </div>
+      <div class="act-footer" id="footer0">
+  <div class="comp-left">
+    <div class="comp-status-icon cs-incomplete" id="csIcon0">&#9711;</div>
+    <div class="comp-text">
+      <p class="comp-label" id="csLabel0">Not yet complete</p>
+      <p class="comp-hint" id="csHint0">Visit all 4 hotspots to complete</p>
+    </div>
+    <div class="comp-prog-wrap">
+      <div class="comp-prog-bar"><div class="comp-prog-fill" id="csProg0" style="width:0%"></div></div>
+    </div>
+  </div>
+  <button class="btn-complete" id="csBtn0" disabled onclick="markComplete(0)">
+    Mark as complete &#8594;
+  </button>
+</div>
+    </div>
+  </div>
+</div>
+<div class="pnl" id="p1">
+  <div class="act-outer">
+    <div class="act-card">
+      <div class="act-hdr">
+  <div class="act-meta">
+    <span class="act-tag">Decision-making activity</span>
+    <span class="act-time">&#9201; 8 min</span>
+    <span class="act-num">Activity 2 of 5</span>
+  </div>
+  <h1 class="act-title">Worldview harvest activity</h1>
+  <div class="objective-box">
+    <span class="obj-icon">&#127919;</span>
+    <p class="obj-text"><strong>Learning objective:</strong> Experience how different worldviews shape resource decisions, and reflect on how IQ principles apply to your own governance context.</p>
+  </div>
+  <button class="inst-toggle" onclick="toggleInst(1)">
+    <span>Show instructions</span><span class="inst-arrow">&#9660;</span>
+  </button>
+  <div class="inst-panel" id="inst1">
+    <p>Work through the four steps: Read the two worldview cards, decide how many eggs to take (click the eggs or use the slider), explore the ecological outcome, then complete the reflection prompt.</p>
+  </div>
+</div>
+      <div class="act-body">
+<div class="steps" id="hvSteps">
+    <div class="step on" id="hvs0"><span class="step-num">1</span>Read</div>
+    <div class="step-line"></div>
+    <div class="step off" id="hvs1"><span class="step-num">2</span>Decide</div>
+    <div class="step-line"></div>
+    <div class="step off" id="hvs2"><span class="step-num">3</span>Outcome</div>
+    <div class="step-line"></div>
+    <div class="step off" id="hvs3"><span class="step-num">4</span>Reflect</div>
+  </div>
+  <div id="hv0">
+    <div class="g2" style="margin-bottom:18px">
+      <div class="card" style="border-top:3px solid #059669"><span class="badge b-tl" style="margin-bottom:10px">Inuit worldview</span><p style="font-size:13.5px;font-weight:700;margin:0 0 8px;line-height:1.25">Relationship with the land</p><p style="font-size:13px;color:var(--tx2);line-height:1.65">Inuit relationship with wildlife is founded on respect, balance, and reciprocity. Taking only what is needed ensures the land remains healthy for future generations &#8212; this is Inuit Qaujimajatuqangit, lived knowledge carried through generations, not an external rule.</p></div>
+      <div class="card" style="border-top:3px solid #DC2626"><span class="badge b-re" style="margin-bottom:10px">Extractive worldview</span><p style="font-size:13.5px;font-weight:700;margin:0 0 8px;line-height:1.25">Maximum harvest logic</p><p style="font-size:13px;color:var(--tx2);line-height:1.65">A resource-extraction worldview treats wildlife as commodity. The goal is to maximise harvest within legal limits. This perspective drove colonial resource practices in Nunavut, including the near-extinction of the bowhead whale through commercial whaling in the 1800s.</p></div>
+    </div>
+    <div class="card c-info" style="margin-bottom:20px"><p style="font-size:12px;font-weight:700;color:var(--bl);margin:0 0 7px">&#128214;&nbsp; Historical context</p><p style="font-size:13px;color:#1E40AF;line-height:1.6">Commercial whalers depleted the bowhead whale to near-extinction within decades. Inuit, who had sustainably harvested bowhead for millennia, were forced to stop hunting for approximately 70 years &#8212; with profound cultural and food security consequences that persist today.</p></div>
+    <button class="btn" onclick="goHv(1)">Continue to decision &#8594;</button>
+  </div>
+  <div id="hv1" style="display:none">
+    <div class="card" style="margin-bottom:18px"><p style="font-size:15px;font-weight:700;margin:0 0 8px">The scenario</p><p style="font-size:13px;color:var(--tx2);line-height:1.65">You are walking the tundra in early summer. You find a ptarmigan nest with <strong>6 eggs</strong>. Your community has enough country food for now. How many do you take? Click an egg directly, or use the slider.</p></div>
+    <div style="display:flex;justify-content:center;margin:8px 0 14px">
+      <svg viewBox="0 0 300 135" width="260" id="nSvg">
+        <defs><filter id="eggsh"><feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-opacity=".2"/></filter></defs>
+        <ellipse cx="150" cy="110" rx="92" ry="24" fill="#C8A060" opacity=".35"/>
+        <ellipse cx="150" cy="103" rx="82" ry="18" fill="#A07840" opacity=".22"/>
+        <ellipse id="e5" cx="115" cy="84" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(5)" style="cursor:pointer" filter="url(#eggsh)"/>
+        <ellipse id="e4" cx="136" cy="76" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(4)" style="cursor:pointer" filter="url(#eggsh)"/>
+        <ellipse id="e3" cx="158" cy="76" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(3)" style="cursor:pointer" filter="url(#eggsh)"/>
+        <ellipse id="e2" cx="180" cy="84" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(2)" style="cursor:pointer" filter="url(#eggsh)"/>
+        <ellipse id="e1" cx="122" cy="96" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(1)" style="cursor:pointer" filter="url(#eggsh)"/>
+        <ellipse id="e0" cx="170" cy="96" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(0)" style="cursor:pointer" filter="url(#eggsh)"/>
+        <text x="150" y="128" text-anchor="middle" font-size="8" fill="#9CA3AF" font-family="sans-serif">Click an egg to take it &nbsp;&#8226;&nbsp; blue = taken</text>
+      </svg>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:14px;width:100%;max-width:300px">
+        <span style="font-size:11.5px;color:var(--tx3);white-space:nowrap">None</span>
+        <input type="range" min="0" max="6" value="0" step="1" id="eslider" style="flex:1;accent-color:var(--br)" oninput="upEgg(parseInt(this.value))"/>
+        <span style="font-size:11.5px;color:var(--tx3);white-space:nowrap">All 6</span>
+      </div>
+      <div id="eLabel" style="font-size:15px;font-weight:700;color:var(--br)">Taking 0 eggs</div>
+    </div>
+    <div id="liveOut" class="card" style="margin-bottom:18px;border-left:4px solid #E5E7EB;border-radius:0 var(--r) var(--r) 0;background:#FAFAF8;box-shadow:none"><p style="font-size:13px;color:var(--tx3);font-style:italic">Adjust the slider or click eggs &#8212; your outcome preview appears here.</p></div>
+    <div style="display:flex;gap:10px"><button class="ghost" onclick="goHv(0)">&#8592; Back</button><button class="btn" onclick="goHv(2)">See full outcome &#8594;</button></div>
+  </div>
+  <div id="hv2" style="display:none">
+    <div id="hvOut" style="margin-bottom:18px"></div>
+    <div style="display:flex;gap:10px"><button class="ghost" onclick="goHv(1)">&#8592; Change decision</button><button class="btn" onclick="goHv(3)">Reflect &#8594;</button></div>
+  </div>
+  <div id="hv3" style="display:none">
+    <div class="card" style="border-left:4px solid var(--br);border-radius:0 var(--r) var(--r) 0;margin-bottom:18px"><p style="font-size:15px;font-weight:700;margin:0 0 8px">Reflection prompt</p><p style="font-size:13px;color:var(--tx2);line-height:1.65;margin:0 0 8px">Inuit have practised relational decision-making for millennia &#8212; not as an imposed rule, but as lived knowledge about how ecosystems sustain themselves. How does this lens change how you think about resource decisions in your governance role?</p><p style="font-size:11.5px;color:var(--tx3);font-style:italic">This can be journalled or discussed. No single answer is scored.</p></div>
+    <div class="iq" style="margin-bottom:20px"><div class="iq-icon">&#127807;</div><div><p class="iq-label">IQ connection</p><p class="iq-p">Inuit Qaujimajatuqangit teaches that all living things exist in relationship. This activity makes that tangible &#8212; not as abstract value, but as a consequence with real ecological stakes that every decision-maker in Nunavut navigates.</p></div></div>
+    <button class="ghost" onclick="goHv(0)">&#8635; Start over</button>
+  </div>
+  </div>
+      <div class="act-footer" id="footer1">
+  <div class="comp-left">
+    <div class="comp-status-icon cs-incomplete" id="csIcon1">&#9711;</div>
+    <div class="comp-text">
+      <p class="comp-label" id="csLabel1">Not yet complete</p>
+      <p class="comp-hint" id="csHint1">Reach the Reflect step to complete</p>
+    </div>
+    <div class="comp-prog-wrap">
+      <div class="comp-prog-bar"><div class="comp-prog-fill" id="csProg1" style="width:0%"></div></div>
+    </div>
+  </div>
+  <button class="btn-complete" id="csBtn1" disabled onclick="markComplete(1)">
+    Mark as complete &#8594;
+  </button>
+</div>
+    </div>
+  </div>
+</div>
+<div class="pnl" id="p2">
+  <div class="act-outer">
+    <div class="act-card">
+      <div class="act-hdr">
+  <div class="act-meta">
+    <span class="act-tag">Interactive map</span>
+    <span class="act-time">&#9201; 10 min</span>
+    <span class="act-num">Activity 3 of 5</span>
+  </div>
+  <h1 class="act-title">Nunavut community impact map</h1>
+  <div class="objective-box">
+    <span class="obj-icon">&#127919;</span>
+    <p class="obj-text"><strong>Learning objective:</strong> Identify how climate change is affecting at least three Nunavut communities, and explain how community-centred stories differ from climate data projections.</p>
+  </div>
+  <button class="inst-toggle" onclick="toggleInst(2)">
+    <span>Show instructions</span><span class="inst-arrow">&#9660;</span>
+  </button>
+  <div class="inst-panel" id="inst2">
+    <p>Click a community marker or use the quick-access pills to open its climate story. Press play on embedded media. Use the Compare button to view two communities side by side. Visit at least 3 communities to complete.</p>
+  </div>
+</div>
+      <div class="act-body">
+<div style="display:grid;grid-template-columns:1fr 326px;gap:20px;align-items:start">
+    <div>
+      <div class="card-bare">
+        <svg viewBox="0 0 490 340" width="100%">
+  <defs>
+    <filter id="pshadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.22)"/>
+    </filter>
+    <linearGradient id="oceanGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#DBEAFE"/><stop offset="100%" stop-color="#BFDBFE"/>
+    </linearGradient>
+  </defs>
+  <!-- Ocean background -->
+  <rect width="490" height="340" fill="url(#oceanGrad)" rx="0"/>
+  <!-- Subtle ocean dots -->
+  <pattern id="dots" width="14" height="14" patternUnits="userSpaceOnUse">
+    <circle cx="7" cy="7" r="0.8" fill="#93C5FD" opacity=".45"/>
+  </pattern>
+  <rect width="490" height="340" fill="url(#dots)"/>
+
+  <!-- Kitikmeot region -->
+  <ellipse cx="98" cy="164" rx="83" ry="96" fill="#FEF9C3" stroke="#FDE047" stroke-width="1.5" opacity=".9"/>
+  <ellipse cx="98" cy="164" rx="83" ry="96" fill="#FFFBEB" stroke="#FCD34D" stroke-width="2" fill-opacity=".7"/>
+
+  <!-- Kivalliq region -->
+  <ellipse cx="218" cy="236" rx="82" ry="76" fill="#DCFCE7" stroke="#86EFAC" stroke-width="2" fill-opacity=".8"/>
+
+  <!-- Qikiqtani region -->
+  <ellipse cx="354" cy="162" rx="98" ry="116" fill="#DBEAFE" stroke="#93C5FD" stroke-width="2" fill-opacity=".8"/>
+
+  <!-- Hudson Bay -->
+  <ellipse cx="305" cy="302" rx="78" ry="30" fill="#93C5FD" opacity=".35"/>
+
+  <!-- Region labels -->
+  <text x="98" y="103" text-anchor="middle" font-size="12" font-weight="700" fill="#92400E" font-family="sans-serif" letter-spacing=".2">Kitikmeot</text>
+  <text x="218" y="174" text-anchor="middle" font-size="12" font-weight="700" fill="#14532D" font-family="sans-serif" letter-spacing=".2">Kivalliq</text>
+  <text x="354" y="76" text-anchor="middle" font-size="12" font-weight="700" fill="#1E3A8A" font-family="sans-serif" letter-spacing=".2">Qikiqtani</text>
+  <text x="303" y="305" text-anchor="middle" font-size="9" fill="#1D4ED8" font-family="sans-serif" opacity=".6">Hudson Bay</text>
+  <text x="222" y="22" text-anchor="middle" font-size="9" fill="#1D4ED8" font-family="sans-serif" opacity=".6">Arctic Ocean</text>
+
+  <!-- Community markers with drop shadow -->
+  <g onclick="sC(0)" style="cursor:pointer" filter="url(#pshadow)">
+    <circle cx="376" cy="262" r="18" fill="#E07B2A" id="cm0"/>
+    <circle cx="376" cy="262" r="12" fill="white" opacity=".2"/>
+    <text x="376" y="266" text-anchor="middle" font-size="9" font-weight="800" fill="white" font-family="sans-serif">IQ</text>
+  </g>
+  <text x="376" y="288" text-anchor="middle" font-size="9.5" fill="#1E3A8A" font-family="sans-serif" font-weight="600">Iqaluit</text>
+
+  <g onclick="sC(1)" style="cursor:pointer" filter="url(#pshadow)">
+    <circle cx="216" cy="272" r="18" fill="#E07B2A" id="cm1"/>
+    <circle cx="216" cy="272" r="12" fill="white" opacity=".2"/>
+    <text x="216" y="276" text-anchor="middle" font-size="9" font-weight="800" fill="white" font-family="sans-serif">AR</text>
+  </g>
+  <text x="216" y="298" text-anchor="middle" font-size="9.5" fill="#14532D" font-family="sans-serif" font-weight="600">Arviat</text>
+
+  <g onclick="sC(2)" style="cursor:pointer" filter="url(#pshadow)">
+    <circle cx="96" cy="180" r="18" fill="#E07B2A" id="cm2"/>
+    <circle cx="96" cy="180" r="12" fill="white" opacity=".2"/>
+    <text x="96" y="184" text-anchor="middle" font-size="9" font-weight="800" fill="white" font-family="sans-serif">CB</text>
+  </g>
+  <text x="96" y="206" text-anchor="middle" font-size="9" fill="#92400E" font-family="sans-serif" font-weight="600">Cambridge Bay</text>
+
+  <g onclick="sC(3)" style="cursor:pointer" filter="url(#pshadow)">
+    <circle cx="330" cy="124" r="18" fill="#E07B2A" id="cm3"/>
+    <circle cx="330" cy="124" r="12" fill="white" opacity=".2"/>
+    <text x="330" y="128" text-anchor="middle" font-size="9" font-weight="800" fill="white" font-family="sans-serif">PI</text>
+  </g>
+  <text x="330" y="150" text-anchor="middle" font-size="9.5" fill="#1E3A8A" font-family="sans-serif" font-weight="600">Pond Inlet</text>
+
+  <g onclick="sC(4)" style="cursor:pointer" filter="url(#pshadow)">
+    <circle cx="176" cy="226" r="18" fill="#E07B2A" id="cm4"/>
+    <circle cx="176" cy="226" r="12" fill="white" opacity=".2"/>
+    <text x="176" y="230" text-anchor="middle" font-size="9" font-weight="800" fill="white" font-family="sans-serif">RI</text>
+  </g>
+  <text x="176" y="252" text-anchor="middle" font-size="9.5" fill="#14532D" font-family="sans-serif" font-weight="600">Rankin Inlet</text>
+</svg>
+        <div class="map-legend" id="cmPills">
+          <span style="font-size:11.5px;color:var(--tx3);font-weight:500;margin-right:2px">Jump to:</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div id="mapPanel" class="card" style="min-height:340px">
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:264px;gap:16px;text-align:center">
+          <div style="width:56px;height:56px;border-radius:50%;background:var(--br-lt);display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:var(--sh)">&#128205;</div>
+          <div><p style="font-size:15px;font-weight:700;color:var(--tx1);margin:0 0 6px">Select a community</p><p style="font-size:12.5px;color:var(--tx3);max-width:165px;margin:0 auto;line-height:1.5">Click a map marker or use the pills below the map</p></div>
+        </div>
+        <div class="div" style="margin:16px 0 14px"></div>
+        <p style="font-size:12px;font-weight:700;margin:0 0 5px;color:var(--tx2)">How this differs from the Climate Atlas</p>
+        <p style="font-size:12px;color:var(--tx2);line-height:1.55">The Climate Atlas shows projected data trends. This tool shows what <em>this community</em> is already experiencing &#8212; a voice-centred story, not a dataset.</p>
+      </div>
+    </div>
+  </div>
+  </div>
+      <div class="act-footer" id="footer2">
+  <div class="comp-left">
+    <div class="comp-status-icon cs-incomplete" id="csIcon2">&#9711;</div>
+    <div class="comp-text">
+      <p class="comp-label" id="csLabel2">Not yet complete</p>
+      <p class="comp-hint" id="csHint2">Visit at least 3 communities to complete</p>
+    </div>
+    <div class="comp-prog-wrap">
+      <div class="comp-prog-bar"><div class="comp-prog-fill" id="csProg2" style="width:0%"></div></div>
+    </div>
+  </div>
+  <button class="btn-complete" id="csBtn2" disabled onclick="markComplete(2)">
+    Mark as complete &#8594;
+  </button>
+</div>
+    </div>
+  </div>
+</div>
+<div class="pnl" id="p3">
+  <div class="act-outer">
+    <div class="act-card">
+      <div class="act-hdr">
+  <div class="act-meta">
+    <span class="act-tag">Sorting activity</span>
+    <span class="act-time">&#9201; 6 min</span>
+    <span class="act-num">Activity 4 of 5</span>
+  </div>
+  <h1 class="act-title">Mitigation vs. adaptation sort</h1>
+  <div class="objective-box">
+    <span class="obj-icon">&#127919;</span>
+    <p class="obj-text"><strong>Learning objective:</strong> Categorise climate response strategies as mitigation, adaptation, or both, using Nunavut-specific examples.</p>
+  </div>
+  <button class="inst-toggle" onclick="toggleInst(3)">
+    <span>Show instructions</span><span class="inst-arrow">&#9660;</span>
+  </button>
+  <div class="inst-panel" id="inst3">
+    <p>Click a card on the left to select it, then click the correct column to place it &#8212; or drag directly. Use the &#128161; hint button on a card if you need guidance. Place all 6 cards to complete. You can retry incorrect answers.</p>
+  </div>
+</div>
+      <div class="act-body">
+<div style="display:grid;grid-template-columns:278px 1fr;gap:18px;align-items:start">
+
+    <!-- LEFT: card deck panel -->
+    <div class="card" style="padding:18px 20px;position:sticky;top:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <p style="font-size:13px;font-weight:700;color:var(--tx1)">Cards to sort</p>
+        <button class="ghost ghost-sm" onclick="rSort()">&#8635; Reset</button>
+      </div>
+      <p id="selHint" style="font-size:11.5px;color:var(--tx3);font-style:italic;margin-bottom:14px;line-height:1.45">Click a card to select it, then click a column to place it.</p>
+      <div id="deck" style="display:flex;flex-direction:column;gap:8px;min-height:60px"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:14px;border-top:1px solid var(--bd-lt)">
+        <span style="font-size:12.5px;color:var(--tx2)">Remaining: <strong id="cL">6</strong></span>
+        <span style="font-size:12.5px;color:var(--tx2)">&#10003; <strong id="cC" style="color:var(--gr)">0</strong> / 6 correct</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: three drop zones -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;align-items:start">
+      <div class="zone-card">
+        <div class="zone-hdr zone-hdr-mit">
+          <p style="font-size:12.5px;font-weight:700;color:var(--bl);margin:0">Mitigation</p>
+          <p style="font-size:11px;color:var(--tx3);margin:4px 0 0;line-height:1.4">Reduces greenhouse gas emissions at the source</p>
+        </div>
+        <div id="z-mit" class="szone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="dD(event,'mit')" onclick="zoneClick('mit')"></div>
+      </div>
+      <div class="zone-card">
+        <div class="zone-hdr zone-hdr-ada">
+          <p style="font-size:12.5px;font-weight:700;color:#92400E;margin:0">Adaptation</p>
+          <p style="font-size:11px;color:var(--tx3);margin:4px 0 0;line-height:1.4">Responds to and prepares for climate impacts</p>
+        </div>
+        <div id="z-ada" class="szone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="dD(event,'ada')" onclick="zoneClick('ada')"></div>
+      </div>
+      <div class="zone-card">
+        <div class="zone-hdr zone-hdr-both">
+          <p style="font-size:12.5px;font-weight:700;color:var(--gr);margin:0">Both</p>
+          <p style="font-size:11px;color:var(--tx3);margin:4px 0 0;line-height:1.4">Addresses emissions and resilience together</p>
+        </div>
+        <div id="z-both" class="szone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="dD(event,'both')" onclick="zoneClick('both')"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="sDone" style="display:none;margin-top:18px"></div>
+  </div>
+      <div class="act-footer" id="footer3">
+  <div class="comp-left">
+    <div class="comp-status-icon cs-incomplete" id="csIcon3">&#9711;</div>
+    <div class="comp-text">
+      <p class="comp-label" id="csLabel3">Not yet complete</p>
+      <p class="comp-hint" id="csHint3">Place all 6 cards to complete</p>
+    </div>
+    <div class="comp-prog-wrap">
+      <div class="comp-prog-bar"><div class="comp-prog-fill" id="csProg3" style="width:0%"></div></div>
+    </div>
+  </div>
+  <button class="btn-complete" id="csBtn3" disabled onclick="markComplete(3)">
+    Mark as complete &#8594;
+  </button>
+</div>
+    </div>
+  </div>
+</div>
+<div class="pnl" id="p4">
+  <div class="act-outer">
+    <div class="act-card">
+      <div class="act-hdr">
+  <div class="act-meta">
+    <span class="act-tag">Knowledge check</span>
+    <span class="act-time">&#9201; 5 min</span>
+    <span class="act-num">Activity 5 of 5</span>
+  </div>
+  <h1 class="act-title">Course 1 closing summary</h1>
+  <div class="objective-box">
+    <span class="obj-icon">&#127919;</span>
+    <p class="obj-text"><strong>Learning objective:</strong> Demonstrate understanding of the five key takeaways from Climate Change 101 by answering each region's micro-question.</p>
+  </div>
+  <button class="inst-toggle" onclick="toggleInst(4)">
+    <span>Show instructions</span><span class="inst-arrow">&#9660;</span>
+  </button>
+  <div class="inst-panel" id="inst4">
+    <p>Click a numbered pin on the map to answer its question. Use the &#8592; &#8594; arrows to navigate between questions. All five must be answered to complete the course.</p>
+  </div>
+</div>
+      <div class="act-body">
+<div style="display:flex;align-items:center;gap:14px;margin-bottom:28px">
+    <span style="font-size:12.5px;color:var(--tx2);white-space:nowrap;font-weight:600">Progress</span>
+    <div class="pbar-wrap" style="flex:1"><div id="pBar" class="pbar-fill" style="width:0%"></div></div>
+    <span style="font-size:13px;font-weight:700;min-width:36px;text-align:right" id="pTxt">0 / 5</span>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 326px;gap:20px;align-items:start">
+    <div class="card-bare">
+      <svg viewBox="0 0 470 328" width="100%" id="closeSvg">
+  <defs>
+    <filter id="pshadow2" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.22)"/>
+    </filter>
+    <linearGradient id="oceanGrad2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#DBEAFE"/><stop offset="100%" stop-color="#BFDBFE"/>
+    </linearGradient>
+    <pattern id="dots2" width="14" height="14" patternUnits="userSpaceOnUse">
+      <circle cx="7" cy="7" r="0.8" fill="#93C5FD" opacity=".45"/>
+    </pattern>
+  </defs>
+  <rect width="470" height="328" fill="url(#oceanGrad2)"/>
+  <rect width="470" height="328" fill="url(#dots2)"/>
+  <ellipse cx="92" cy="156" rx="80" ry="92" fill="#FFFBEB" stroke="#FCD34D" stroke-width="2" fill-opacity=".75"/>
+  <ellipse cx="206" cy="224" rx="80" ry="72" fill="#DCFCE7" stroke="#86EFAC" stroke-width="2" fill-opacity=".8"/>
+  <ellipse cx="338" cy="154" rx="94" ry="112" fill="#DBEAFE" stroke="#93C5FD" stroke-width="2" fill-opacity=".8"/>
+  <ellipse cx="284" cy="292" rx="72" ry="28" fill="#93C5FD" opacity=".35"/>
+  <text x="92" y="96" text-anchor="middle" font-size="10" font-weight="700" fill="#92400E" font-family="sans-serif">Kitikmeot</text>
+  <text x="206" y="166" text-anchor="middle" font-size="10" font-weight="700" fill="#14532D" font-family="sans-serif">Kivalliq</text>
+  <text x="338" y="70" text-anchor="middle" font-size="10" font-weight="700" fill="#1E3A8A" font-family="sans-serif">Qikiqtani</text>
+  <text x="282" y="296" text-anchor="middle" font-size="8" fill="#1D4ED8" font-family="sans-serif" opacity=".6">Hudson Bay</text>
+  <!-- Connector lines -->
+  <line x1="92" y1="160" x2="164" y2="202" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="164" y1="206" x2="198" y2="241" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="198" y1="245" x2="280" y2="154" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="280" y1="158" x2="310" y2="202" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <!-- Pins with drop shadow -->
+  <g onclick="sP(0)" style="cursor:pointer" filter="url(#pshadow2)">
+    <circle cx="92" cy="160" r="16" fill="#E07B2A" id="pc0"/>
+    <circle cx="92" cy="160" r="10" fill="white" opacity=".2"/>
+    <text x="92" y="165" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="sans-serif">1</text>
+    <circle cx="109" cy="145" r="10" id="pr0" fill="#16A34A" display="none"/>
+    <text x="109" y="149" text-anchor="middle" font-size="10" font-weight="700" fill="white" id="pt0" font-family="sans-serif" display="none"></text>
+  </g>
+  <g onclick="sP(1)" style="cursor:pointer" filter="url(#pshadow2)">
+    <circle cx="164" cy="206" r="16" fill="#E07B2A" id="pc1"/>
+    <circle cx="164" cy="206" r="10" fill="white" opacity=".2"/>
+    <text x="164" y="211" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="sans-serif">2</text>
+    <circle cx="181" cy="191" r="10" id="pr1" fill="#16A34A" display="none"/>
+    <text x="181" y="195" text-anchor="middle" font-size="10" font-weight="700" fill="white" id="pt1" font-family="sans-serif" display="none"></text>
+  </g>
+  <g onclick="sP(2)" style="cursor:pointer" filter="url(#pshadow2)">
+    <circle cx="198" cy="245" r="16" fill="#E07B2A" id="pc2"/>
+    <circle cx="198" cy="245" r="10" fill="white" opacity=".2"/>
+    <text x="198" y="250" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="sans-serif">3</text>
+    <circle cx="215" cy="230" r="10" id="pr2" fill="#16A34A" display="none"/>
+    <text x="215" y="234" text-anchor="middle" font-size="10" font-weight="700" fill="white" id="pt2" font-family="sans-serif" display="none"></text>
+  </g>
+  <g onclick="sP(3)" style="cursor:pointer" filter="url(#pshadow2)">
+    <circle cx="280" cy="154" r="16" fill="#E07B2A" id="pc3"/>
+    <circle cx="280" cy="154" r="10" fill="white" opacity=".2"/>
+    <text x="280" y="159" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="sans-serif">4</text>
+    <circle cx="297" cy="139" r="10" id="pr3" fill="#16A34A" display="none"/>
+    <text x="297" y="143" text-anchor="middle" font-size="10" font-weight="700" fill="white" id="pt3" font-family="sans-serif" display="none"></text>
+  </g>
+  <g onclick="sP(4)" style="cursor:pointer" filter="url(#pshadow2)">
+    <circle cx="310" cy="202" r="16" fill="#E07B2A" id="pc4"/>
+    <circle cx="310" cy="202" r="10" fill="white" opacity=".2"/>
+    <text x="310" y="207" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="sans-serif">5</text>
+    <circle cx="327" cy="187" r="10" id="pr4" fill="#16A34A" display="none"/>
+    <text x="327" y="191" text-anchor="middle" font-size="10" font-weight="700" fill="white" id="pt4" font-family="sans-serif" display="none"></text>
+  </g>
+</svg>
+    </div>
+    <div>
+      <div id="pinPanel" class="card" style="min-height:340px">
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:270px;gap:16px;text-align:center">
+          <div style="width:56px;height:56px;border-radius:50%;background:var(--br-lt);display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:var(--sh)">&#128506;</div>
+          <div><p style="font-size:15px;font-weight:700;color:var(--tx1);margin:0 0 6px">Select a takeaway</p><p style="font-size:12.5px;color:var(--tx3);max-width:170px;margin:0 auto;line-height:1.5">Click a numbered pin on the map to answer its question</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="completionBox" style="display:none;margin-top:22px"></div>
+      <div class="act-footer" id="footer4">
+  <div class="comp-left">
+    <div class="comp-status-icon cs-incomplete" id="csIcon4">&#9711;</div>
+    <div class="comp-text">
+      <p class="comp-label" id="csLabel4">Not yet complete</p>
+      <p class="comp-hint" id="csHint4">Answer all 5 questions to complete</p>
+    </div>
+    <div class="comp-prog-wrap">
+      <div class="comp-prog-bar"><div class="comp-prog-fill" id="csProg4" style="width:0%"></div></div>
+    </div>
+  </div>
+  <button class="btn-complete" id="csBtn4" disabled onclick="markComplete(4)">
+    Mark as complete &#8594;
+  </button>
+</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function sw(n){document.querySelectorAll(".tab").forEach((t,i)=>t.classList.toggle("on",i===n));document.querySelectorAll(".pnl").forEach((p,i)=>p.classList.toggle("on",i===n));}
+
+// —— UTILITIES ———————————————————————————————————————————————
+function burst(){
+  const cols=["#E07B2A","#1E3A5F","#065F46","#FCD34D","#DC2626","#3B82F6","#10B981","#F59E0B"];
+  for(let i=0;i<72;i++){
+    const d=document.createElement("div"),sz=4+Math.random()*7,rect=Math.random()>.5;
+    d.style.cssText=`position:fixed;width:${sz}px;height:${sz}px;background:${cols[i%cols.length]};border-radius:${rect?"3px":"50%"};top:50%;left:50%;z-index:9999;pointer-events:none;transition:transform .85s cubic-bezier(.17,.67,.35,1),opacity .85s ease`;
+    document.body.appendChild(d);
+    const a=Math.random()*Math.PI*2,r=90+Math.random()*240;
+    setTimeout(()=>{d.style.transform=`translate(calc(-50% + ${Math.cos(a)*r}px),calc(-50% + ${Math.sin(a)*r}px)) rotate(${Math.random()*360}deg) scale(.4)`;d.style.opacity="0";},10);
+    setTimeout(()=>d.remove(),920);
+  }
+}
+
+function shak(el){
+  el.classList.remove("shake");
+  void el.offsetWidth;
+  el.classList.add("shake");
+  el.addEventListener("animationend",()=>el.classList.remove("shake"),{once:true});
+}
+
+function pinPop(i){
+  const c=document.getElementById("pc"+i);
+  if(!c)return;
+  const base=16;let t=0;
+  const tick=()=>{
+    t+=16;const p=Math.min(t/380,1);
+    let r=base;
+    if(p<.35) r=base+base*.45*(p/.35);
+    else if(p<.65) r=base*1.45-(base*.52)*((p-.35)/.30);
+    else if(p<1) r=base*.93+(base*.07)*((p-.65)/.35);
+    else r=base;
+    c.setAttribute("r",r.toFixed(1));
+    if(p<1) requestAnimationFrame(tick);
+    else c.setAttribute("r",base);
+  };
+  requestAnimationFrame(tick);
+}
+
+// —— GREENHOUSE ——————————————————————————————————————————————
+const hsd=[
+  {t:"The sun — shortwave radiation",sci:"The sun emits high-energy shortwave radiation. About 30% is reflected to space by clouds and atmosphere. The rest reaches Earth's surface and drives weather, ocean circulation, and life. In the Arctic, reduced sea ice means less is reflected — the albedo feedback loop accelerates warming.",iq:"ᒲᐅᐃᓄ — the sun — governs sea ice formation, the return of wildlife, and the rhythm of Inuit life across seasons. Knowledge holders have documented that solar patterns affecting safe ice travel and animal return are shifting, with direct consequences for food security and movement on the land."},
+  {t:"Greenhouse gas layer — trapping longwave radiation",sci:"CO₂, CH₄, N₂O, and water vapour allow shortwave radiation through but absorb and re-emit outgoing longwave (infrared) radiation. This greenhouse effect is natural and essential at background concentrations. Elevated concentrations from human activity amplify it, raising global temperatures.",iq:"Inuit knowledge holders observed that the atmosphere 'holds warmth differently' before it was confirmed by scientific instruments — winters failing to freeze fully, dark seasons shortening, weather patterns no longer following markers Elders had learned to read. IQ documented these changes first."},
+  {t:"Earth's surface — absorption and the albedo effect",sci:"Earth's surface absorbs shortwave radiation and re-emits it as longwave heat. Darker surfaces (open ocean, bare tundra) absorb more heat than reflective ice and snow. As warming reduces ice coverage, more heat is absorbed — a self-reinforcing feedback loop especially pronounced in the Arctic.",iq:"Elders have observed the darkening of landscapes where ice once persisted, sea ice forming weeks later and breaking earlier, and vegetation moving into areas that were previously barren tundra. The land is visibly changing in ways that affect how people travel, hunt, and relate to their territory."},
+  {t:"Human vs. natural greenhouse gas sources",sci:"Natural GHG sources include volcanoes, decomposition, and ocean outgassing. Human sources — burning fossil fuels, deforestation, industrial agriculture — have elevated atmospheric CO₂ from ~280 ppm (pre-industrial) to over 420 ppm today. This is the primary driver of current climate warming.",iq:"Inuit contribute less than 0.1% of global greenhouse gas emissions yet face some of the most acute climate impacts on Earth. This disparity — between those who caused the problem and those most affected — is the foundation of climate justice and shapes Nunavut's voice in global climate policy."}
+];
+const hsVis=new Set();let curHS=-1;
+function selHS(i){
+  hsVis.add(i);curHS=i;
+  [0,1,2,3].forEach(j=>{
+    const g=document.getElementById("hs"+j);if(g)g.style.opacity=j===i?"1":".4";
+    const b=document.getElementById("hb"+j);if(b)b.setAttribute("fill",hsVis.has(j)?"#059669":"#E07B2A");
+  });
+  renderHSPanel(i);
+}
+function renderHSPanel(i){
+  const d=hsd[i],prev=(i+3)%4,next=(i+1)%4;
+  document.getElementById("hsPanel").innerHTML=
+    `<div class="badge b-or" style="margin-bottom:10px">Hotspot ${i+1} of 4</div>
+    <p style="font-size:15px;font-weight:700;margin:0 0 12px;line-height:1.3">${d.t}</p>
+    <p style="font-size:10.5px;font-weight:700;color:#6b7280;margin:0 0 5px;text-transform:uppercase;letter-spacing:.07em">Western science</p>
+    <p style="font-size:12.5px;color:var(--tx2);line-height:1.65;margin:0 0 14px">${d.sci}</p>
+    <div class="iq"><div class="iq-icon">&#127807;</div><div><p class="iq-label">IQ perspective</p><p class="iq-p">${d.iq}</p></div></div>
+    <div class="nav-row">
+      <button class="nav-btn" onclick="selHS(${prev})">&#8592; ${prev+1}</button>
+      <span class="nav-ct">${hsVis.size}/4 explored</span>
+      <button class="nav-btn" onclick="selHS(${next})">${next+1} &#8594;</button>
+    </div>
+    <p style="font-size:10.5px;font-style:italic;color:var(--tx3);margin:10px 0 0">Available in Inuktitut syllabics in production.</p>`;
+}
+
+// —— HARVEST —————————————————————————————————————————————————
+const hvo=[
+  {lv:"gr",lb:"Taking nothing",d:"The ptarmigan returns undisturbed. All six eggs hatch. The chicks enrich the broader food web — food for foxes, raptors, and eventually larger predators. Your restraint is a contribution to the ecosystem cycle.",iq:"This reflects ᒲᐃᑕᐄᓅᒐᐄ — taking only what is needed. IQ teaches that the land sustains those who sustain it."},
+  {lv:"gr",lb:"Taking 1 egg",d:"You take what you need. Five eggs hatch. The ptarmigan population is unaffected. Your harvest is part of a reciprocal relationship with the land — sustainable and balanced.",iq:"Taking what is needed — no more — is the practice of Inuit land use. Balance is maintained across seasons."},
+  {lv:"gr",lb:"Taking 2 eggs",d:"A measured harvest. Four eggs hatch and the ptarmigan raises a healthy brood. Your decision reflects balance — you have taken something and the land has not been diminished.",iq:"Two from six reflects the IQ principle of moderation. The land gives; those who take with care ensure it continues to give."},
+  {lv:"warn",lb:"Taking 3 eggs",d:"Half the clutch gone. Three eggs hatch — a smaller brood. Local impact is limited in isolation. But imagine this choice made by many, many times, across many nests in a single season. The cumulative effect becomes significant.",iq:"IQ asks us to think beyond the individual moment — what does this choice mean at scale, across a whole community, across a whole season?"},
+  {lv:"warn",lb:"Taking 4 eggs",d:"More than needed. Two eggs hatch. The ptarmigan's contribution to this season's food web is significantly reduced. Small alone; consequential at scale.",iq:"The land sees cumulative choices, not individual ones. IQ teaches us to hold this wider perspective in every decision."},
+  {lv:"err",lb:"Taking 5 eggs",d:"Near-total harvest. One egg may hatch. This season's contribution of this nest to the food web is largely lost. Multiplied across a regional population, this begins to affect species viability.",iq:"This mirrors the bowhead whale near-extinction — not one hunter, but a system with no concept of limit. Inuit rejected this worldview; the land bore its consequences anyway."},
+  {lv:"err",lb:"Taking all 6",d:"Complete harvest. No eggs hatch. Every contribution this nest would have made — food for foxes, raptors, next year's birds — is gone. Extraction without relationship.",iq:"This is the extractive worldview made concrete. IQ names this a break in relationship with the ptarmigan, with the land, and with future generations."}
+];
+let eggCount=0;
+function clickEgg(n){
+  const el=document.getElementById("e"+n);
+  eggCount=el.getAttribute("fill")==="#BFDBFE"?n:n+1;
+  document.getElementById("eslider").value=eggCount;
+  upEgg(eggCount);
+}
+function upEgg(v){
+  eggCount=parseInt(v);
+  document.getElementById("eLabel").textContent=v==0?"Taking 0 eggs":v==1?"Taking 1 egg":"Taking "+v+" eggs";
+  ["e0","e1","e2","e3","e4","e5"].forEach((id,i)=>{
+    const el=document.getElementById(id);if(!el)return;
+    const taken=i<parseInt(v);
+    el.setAttribute("fill",taken?"#BFDBFE":"#FEF3C7");
+    el.setAttribute("stroke",taken?"#3B82F6":"#D97706");
+    el.setAttribute("opacity",taken?".5":"1");
+  });
+  renderLiveOut(v);
+}
+function renderLiveOut(v){
+  const lo=document.getElementById("liveOut");if(!lo)return;
+  const o=hvo[Math.min(v,hvo.length-1)];
+  const bc={gr:"#059669",warn:"#D97706",err:"#DC2626"};
+  const bg={gr:"#F0FDF4",warn:"#FFFBEB",err:"#FEF2F2"};
+  lo.style.borderLeftColor=bc[o.lv];lo.style.background=bg[o.lv];
+  lo.innerHTML=`<p style="font-size:13px;font-weight:700;color:${bc[o.lv]};margin:0 0 5px">${o.lb}</p><p style="font-size:12.5px;color:var(--tx2);margin:0;line-height:1.55">${o.d}</p>`;
+}
+function goHv(s){
+  [0,1,2,3].forEach(i=>document.getElementById("hv"+i).style.display=i===s?"block":"none");
+  ["hvs0","hvs1","hvs2","hvs3"].forEach((id,i)=>{
+    const el=document.getElementById(id),on=i===s,done=i<s;
+    el.className="step "+(on?"on":done?"done":"off");
+  });
+  if(s===2){
+    const o=hvo[Math.min(eggCount,hvo.length-1)];
+    const bc={gr:"#059669",warn:"#D97706",err:"#DC2626"},bg={gr:"#F0FDF4",warn:"#FFFBEB",err:"#FEF2F2"};
+    const lc={gr:"#166534",warn:"#92400E",err:"#991B1B"},bb={gr:"b-gr",warn:"b-or",err:"b-re"};
+    document.getElementById("hvOut").innerHTML=
+      `<div class="card" style="border-left:4px solid ${bc[o.lv]};border-radius:0 var(--r) var(--r) 0;background:${bg[o.lv]};margin-bottom:10px">
+        <div class="badge ${bb[o.lv]}" style="margin-bottom:8px">${o.lb}</div>
+        <p style="font-size:13px;color:${lc[o.lv]};line-height:1.65;margin:0 0 14px">${o.d}</p>
+        <div class="iq"><div class="iq-icon">&#127807;</div><div><p class="iq-label">IQ reflection</p><p class="iq-p">${o.iq}</p></div></div>
+      </div>`;
+  }
+}
+
+// —— MAP —————————————————————————————————————————————————————
+const cm=[
+  {nm:"Iqaluit",rg:"Qikiqtani",tg:"Sea ice & food access",st:"Sea ice in Frobisher Bay now forms weeks later than documented in the 1970s. In December 2025, there was no sea ice — unprecedented in living memory. Hunters who relied on ice roads to access country food are adapting routes and timing in real time.",mi:"video",ms:"Community member on sea ice changes",secs:134,df:"The Climate Atlas shows a trend line. This tells you what a named community member is watching happen at the waterline, in their words, right now."},
+  {nm:"Arviat",rg:"Kivalliq",tg:"Isostatic rebound & coast",st:"As ancient glacial weight continues to lift, Arviat is slowly rising. Coastlines are shifting, affecting boat launches and safe building sites. Combined with more intense storms, the community's physical geography is being reshaped in ways that affect infrastructure and traditional land use.",mi:"audio",ms:"Elder on shoreline changes",secs:105,df:"Isostatic rebound appears on the Climate Atlas as a projected data trend. This tells you what an Elder in Arviat is watching happen at the waterline."},
+  {nm:"Cambridge Bay",rg:"Kitikmeot",tg:"Permafrost thaw",st:"Permafrost that once provided stable building foundations is thawing. Roads, foundations, water and sewage systems are all showing stress. New construction must now account for ground that can no longer be treated as permanent — a significant challenge in a community with housing pressures.",mi:"photo",ms:"Photo series: infrastructure impacts",secs:0,df:"Permafrost thaw projections appear on the Climate Atlas. This panel shows what it looks like in the community where people actually live and work."},
+  {nm:"Pond Inlet",rg:"Qikiqtani",tg:"Wildlife migration shifts",st:"Caribou migration patterns have shifted. Animals arrive in different areas and at different times than Inuit hunters have historically known. Traditional knowledge of migration routes passed through generations is now less predictive — creating both practical and cultural challenges simultaneously.",mi:"video",ms:"Hunter on caribou migration changes",secs:182,df:"Migration shift data exists in the Climate Atlas. The story of a hunter whose grandfather's knowledge no longer matches the land does not."},
+  {nm:"Rankin Inlet",rg:"Kivalliq",tg:"Weather unpredictability",st:"The ability to read weather — a survival skill refined over millennia — is becoming less reliable. Weather now behaves in ways that traditional IQ indicators no longer predict consistently, affecting safe travel, hunting success, and intergenerational knowledge transmission.",mi:"audio",ms:"Elder on weather pattern changes",secs:148,df:"No data atlas captures the erosion of IQ weather knowledge. This panel holds a story that no dataset can tell."}
+];
+const cmVis=new Set();
+let curCom=-1,pTimer=null,pPos=0,pPlay=false,pDur=0;
+let cmpMode=false,cmpA=-1,cmpB=-1;
+
+function fmtT(s){return Math.floor(s/60)+":"+(s%60<10?"0":"")+s%60;}
+function resetPlayer(dur){
+  clearInterval(pTimer);pPos=0;pPlay=false;pDur=dur;
+  const f=document.getElementById("trackFill"),t=document.getElementById("playTime"),b=document.getElementById("playBtn");
+  if(f)f.style.width="0%";if(t)t.textContent="0:00 / "+fmtT(dur);if(b){b.textContent="▶";b.disabled=false;}
+}
+function togglePlay(){
+  if(!pDur)return;pPlay=!pPlay;
+  const b=document.getElementById("playBtn");
+  if(pPlay){
+    if(pPos>=100)pPos=0;
+    b.textContent="⏸";
+    pTimer=setInterval(()=>{
+      pPos=Math.min(100,pPos+(100/pDur)*.15);
+      const el=Math.round(pPos/100*pDur);
+      const f=document.getElementById("trackFill"),t=document.getElementById("playTime");
+      if(f)f.style.width=pPos+"%";if(t)t.textContent=fmtT(el)+" / "+fmtT(pDur);
+      if(pPos>=100){clearInterval(pTimer);pPlay=false;b.textContent="↺";}
+    },150);
+  } else {clearInterval(pTimer);b.textContent="▶";}
+}
+
+function buildPills(){
+  const c=document.getElementById("cmPills");if(!c)return;
+  const pills=cm.map((d,i)=>{
+    let cls="cm-pill";
+    if(!cmpMode&&i===curCom)cls+=" cm-act";
+    else if(cmpMode&&(i===cmpA||i===cmpB))cls+=" cm-act";
+    else if(cmVis.has(i))cls+=" cm-vis";
+    return `<button class="${cls}" onclick="sC(${i})">${d.nm}</button>`;
+  }).join("");
+  const cmpBtnStyle=cmpMode?`background:var(--mn);color:white;border-color:var(--mn);`:``;
+  c.innerHTML=`<span style="font-size:11.5px;color:var(--tx3);font-weight:500;margin-right:2px">Jump to:</span>${pills}<button onclick="toggleCompare()" style="margin-left:auto;flex-shrink:0;${cmpBtnStyle}background:${cmpMode?"var(--mn)":"none"};color:${cmpMode?"white":"var(--tx2)"};border:1px solid ${cmpMode?"var(--mn)":"var(--bd)"};border-radius:20px;padding:5px 13px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s">${cmpMode?"&#10005; Exit compare":"&#8853; Compare regions"}</button>`;
+}
+
+function sC(i){
+  if(cmpMode){selectForCompare(i);return;}
+  clearInterval(pTimer);pPlay=false;curCom=i;cmVis.add(i);buildPills();
+  [0,1,2,3,4].forEach(j=>{
+    const c=document.getElementById("cm"+j);
+    if(c)c.setAttribute("fill",j===i?"#1E3A5F":cmVis.has(j)?"#6B7280":"#E07B2A");
+  });
+  const c=cm[i],prev=(i+4)%5,next=(i+1)%5;
+  const mi={video:"▶",audio:"🔊",photo:"🖼"}[c.mi]||"📄";
+  document.getElementById("mapPanel").innerHTML=
+    `<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+      <div><p style="font-size:15px;font-weight:700;margin:0">${c.nm}</p><p style="font-size:11.5px;color:var(--tx3);margin:3px 0 0">${c.rg} region</p></div>
+      <span class="badge b-or">${c.tg}</span>
+    </div>
+    <p style="font-size:12.5px;color:var(--tx2);margin:0 0 14px;line-height:1.65">${c.st}</p>
+    <div class="media-box" style="margin-bottom:14px">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:${c.secs>0?8:0}px">
+        <div style="width:28px;height:28px;border-radius:8px;background:var(--bl-lt);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">${mi}</div>
+        <p style="font-size:12.5px;font-weight:600;margin:0">${c.ms}</p>
+      </div>
+      ${c.secs>0?`<div class="player"><button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button><div class="track"><div class="track-fill" id="trackFill" style="width:0%"></div></div><span class="play-time" id="playTime">0:00 / ${fmtT(c.secs)}</span></div>`:`<p style="font-size:11px;font-style:italic;color:var(--tx3);margin:0">Photo series embeds in this panel.</p>`}
+    </div>
+    <div class="iq"><div class="iq-icon">&#127807;</div><div><p class="iq-label">Why this differs from the Climate Atlas</p><p class="iq-p" style="font-size:11.5px">${c.df}</p></div></div>
+    <div class="nav-row">
+      <button class="nav-btn" onclick="sC(${prev})">&#8592; ${cm[prev].nm}</button>
+      <span class="nav-ct">${cmVis.size}/5 visited</span>
+      <button class="nav-btn" onclick="sC(${next})">${cm[next].nm} &#8594;</button>
+    </div>`;
+  if(c.secs>0)resetPlayer(c.secs);
+}
+
+function toggleCompare(){
+  cmpMode=!cmpMode;cmpA=-1;cmpB=-1;
+  buildPills();
+  if(!cmpMode){
+    [0,1,2,3,4].forEach(j=>{const c=document.getElementById("cm"+j);if(c)c.setAttribute("fill",j===curCom?"#1E3A5F":cmVis.has(j)?"#6B7280":"#E07B2A");});
+    renderMapDefault();
+  } else {
+    document.getElementById("mapPanel").innerHTML=
+      `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:280px;gap:16px;text-align:center">
+        <div style="width:52px;height:52px;border-radius:50%;background:var(--br-lt);display:flex;align-items:center;justify-content:center;font-size:26px">&#9860;</div>
+        <div><p style="font-size:15px;font-weight:700;margin:0 0 6px">Compare mode</p><p style="font-size:12.5px;color:var(--tx3);max-width:190px;margin:0 auto;line-height:1.5">Click two community markers to compare their climate stories side by side</p></div>
+      </div>`;
+  }
+}
+
+function selectForCompare(i){
+  cmVis.add(i);
+  if(cmpA===-1){cmpA=i;}
+  else if(cmpB===-1&&i!==cmpA){cmpB=i;}
+  else if(i===cmpA){cmpA=cmpB;cmpB=-1;}
+  else{cmpA=i;cmpB=-1;}
+  [0,1,2,3,4].forEach(j=>{
+    const c=document.getElementById("cm"+j);if(!c)return;
+    c.setAttribute("fill",j===cmpA||j===cmpB?"#1E3A5F":cmVis.has(j)?"#6B7280":"#E07B2A");
+  });
+  buildPills();
+  if(cmpA!==-1&&cmpB!==-1){renderCompare(cmpA,cmpB);}
+  else if(cmpA!==-1){
+    document.getElementById("mapPanel").innerHTML=
+      `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:280px;gap:14px;text-align:center">
+        <div style="width:44px;height:44px;border-radius:50%;background:var(--mn);display:flex;align-items:center;justify-content:center;font-size:20px;color:white">1</div>
+        <div><p style="font-size:14px;font-weight:700;margin:0 0 4px">${cm[cmpA].nm} selected</p><p style="font-size:12.5px;color:var(--tx3);max-width:180px;margin:0 auto;line-height:1.5">Now click a second community to compare</p></div>
+      </div>`;
+  }
+}
+
+function renderCompare(a,b){
+  const ca=cm[a],cb=cm[b];
+  document.getElementById("mapPanel").innerHTML=
+    `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <p style="font-size:11.5px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin:0">Comparing</p>
+      <button class="ghost ghost-sm" onclick="toggleCompare()" style="font-size:11px;padding:3px 10px">&#10005; Exit</button>
+    </div>
+    <div style="margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:7px">
+        <div style="width:9px;height:9px;border-radius:50%;background:var(--mn);flex-shrink:0"></div>
+        <p style="font-size:13.5px;font-weight:700;margin:0">${ca.nm}</p>
+        <span class="badge b-or" style="margin-left:auto;font-size:10px">${ca.tg}</span>
+      </div>
+      <p style="font-size:12px;color:var(--tx2);line-height:1.55;padding-left:16px">${ca.st.substring(0,150)}&#8230;</p>
+    </div>
+    <div style="height:1px;background:var(--bd);margin:12px 0"></div>
+    <div style="margin-bottom:14px">
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:7px">
+        <div style="width:9px;height:9px;border-radius:50%;background:var(--br);flex-shrink:0"></div>
+        <p style="font-size:13.5px;font-weight:700;margin:0">${cb.nm}</p>
+        <span class="badge b-or" style="margin-left:auto;font-size:10px">${cb.tg}</span>
+      </div>
+      <p style="font-size:12px;color:var(--tx2);line-height:1.55;padding-left:16px">${cb.st.substring(0,150)}&#8230;</p>
+    </div>
+    <div class="iq" style="margin-bottom:14px"><div class="iq-icon" style="width:24px;height:24px;font-size:11px">IQ</div><div><p class="iq-label">Regional IQ thread</p><p class="iq-p" style="font-size:11.5px">Both communities are experiencing shifts in their relationship with the land. The specific manifestations differ by region — but IQ principles of reading and responding to environmental signals apply across all three regions of Nunavut.</p></div></div>
+    <div style="display:flex;gap:8px">
+      <button class="ghost ghost-sm" style="flex:1;font-size:11.5px" onclick="cmpMode=false;sC(${a})">${ca.nm} full &#8594;</button>
+      <button class="ghost ghost-sm" style="flex:1;font-size:11.5px" onclick="cmpMode=false;sC(${b})">${cb.nm} full &#8594;</button>
+    </div>`;
+}
+
+function renderMapDefault(){
+  curCom=-1;
+  document.getElementById("mapPanel").innerHTML=
+    `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:264px;gap:16px;text-align:center">
+      <div style="width:56px;height:56px;border-radius:50%;background:var(--br-lt);display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:var(--sh)">&#128205;</div>
+      <div><p style="font-size:15px;font-weight:700;color:var(--tx1);margin:0 0 6px">Select a community</p><p style="font-size:12.5px;color:var(--tx3);max-width:165px;margin:0 auto;line-height:1.5">Click a map marker or use the pills below the map</p></div>
+    </div>
+    <div style="height:1px;background:var(--bd);margin:16px 0 14px"></div>
+    <p style="font-size:12px;font-weight:700;margin:0 0 5px;color:var(--tx2)">How this differs from the Climate Atlas</p>
+    <p style="font-size:12px;color:var(--tx2);line-height:1.55">The Climate Atlas shows projected data trends. This shows what <em>this community</em> is already experiencing &#8212; a voice-centred story, not a dataset.</p>`;
+}
+
+// —— SORT —————————————————————————————————————————————————————
+const cards=[
+  {id:"s1",tx:"Transitioning hamlet buildings to solar and wind energy",co:"mit",ex:"Switching to renewables directly reduces CO₂ and diesel emissions — mitigation: reducing the problem at its source."},
+  {id:"s2",tx:"Mapping new safe hunting routes as sea ice conditions change",co:"ada",ex:"Adapting travel routes to changed ice conditions is a direct response to existing impacts — adaptation: adjusting to a changed reality."},
+  {id:"s3",tx:"Building community food storage for more resilient supply chains",co:"ada",ex:"Strengthening food storage builds resilience against supply chain disruptions — adaptation: preparing for climate impacts."},
+  {id:"s4",tx:"Reducing diesel generator use in remote communities",co:"mit",ex:"Less diesel burned means fewer greenhouse gas emissions — mitigation: directly reducing the cause of climate change."},
+  {id:"s5",tx:"Designing new housing with permafrost-thaw resistant foundations",co:"both",ex:"Addresses a climate impact through design (adaptation) while good construction can reduce embodied carbon emissions (mitigation). Both."},
+  {id:"s6",tx:"Inuit-led land stewardship reducing extraction and building food sovereignty",co:"both",ex:"Reduces extractive pressure on ecosystems (mitigation) and builds community resilience and food sovereignty (adaptation). A whole-of-system response."}
+];
+const pl={};let selCard=null;
+const hints={};
+
+function showHint(cardId){
+  const level=(hints[cardId]||0)+1;
+  hints[cardId]=level;
+  const card=cards.find(c=>c.id===cardId);if(!card)return;
+  document.querySelectorAll(".zone-hdr").forEach(h=>h.classList.remove("hint-header"));
+  document.querySelectorAll(".szone").forEach(z=>z.classList.remove("zone-hint"));
+  if(level===1){
+    const z=document.getElementById("z-"+card.co);
+    if(z&&z.previousElementSibling)z.previousElementSibling.classList.add("hint-header");
+  } else {
+    const z=document.getElementById("z-"+card.co);
+    if(z)z.classList.add("zone-hint");
+  }
+  bDeck();
+}
+
+function bDeck(){
+  const d=document.getElementById("deck");d.innerHTML="";
+  cards.forEach(c=>{
+    if(pl[c.id])return;
+    const el=document.createElement("div");el.id=c.id;el.draggable=true;el.dataset.id=c.id;
+    el.className="sort-card"+(selCard===c.id?" sort-sel":"");
+    const hintLevel=hints[c.id]||0;
+    const hintLabel=hintLevel===0?"&#128161;":hintLevel===1?"&#128161;&#183;1":"&#128161;&#183;2";
+    el.innerHTML=`<span class="grip">&#x2807;</span><span style="flex:1;line-height:1.45">${c.tx}</span><button onclick="event.stopPropagation();showHint('${c.id}')" title="Get a hint (${hintLevel}/2 used)" style="flex-shrink:0;background:none;border:1px solid var(--bd);border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;color:${hintLevel>0?"var(--br)":"var(--tx3)"};transition:all .15s;font-weight:${hintLevel>0?600:400}">${hintLabel}</button>`;
+    el.addEventListener("click",()=>{
+      selCard=selCard===c.id?null:c.id;
+      const hint=document.getElementById("selHint");
+      if(hint)hint.textContent=selCard?`"${c.tx.substring(0,40)}…" selected — click a column to place it`:"Click a card to select it, then click a column.";
+      bDeck();
+    });
+    el.addEventListener("dragstart",e=>{
+      e.dataTransfer.setData("text",c.id);
+      const ghost=el.cloneNode(true);
+      ghost.style.cssText=`position:fixed;top:-1000px;left:-1000px;opacity:.96;transform:rotate(2.5deg) scale(1.03);box-shadow:0 14px 32px rgba(0,0,0,.18);pointer-events:none;width:240px;background:white;border:1.5px solid var(--br);border-radius:var(--r-xs);padding:10px 12px;font-size:12.5px;color:var(--tx1)`;
+      document.body.appendChild(ghost);
+      e.dataTransfer.setDragImage(ghost,120,22);
+      setTimeout(()=>ghost.parentNode&&ghost.parentNode.removeChild(ghost),0);
+    });
+    d.appendChild(el);
+  });
+  document.getElementById("cL").textContent=cards.filter(c=>!pl[c.id]).length;
+  document.getElementById("cC").textContent=cards.filter(c=>pl[c.id]&&pl[c.id]===c.co).length;
+}
+
+function rZones(){
+  ["mit","ada","both"].forEach(z=>{
+    const zn=document.getElementById("z-"+z);zn.innerHTML="";zn.classList.remove("over","zone-hint");
+    cards.filter(c=>pl[c.id]===z).forEach(c=>{
+      const ok=c.co===z;
+      const el=document.createElement("div");
+      el.style.cssText=`border-radius:var(--r-xs);padding:9px 11px;font-size:12.5px;line-height:1.45;background:${ok?"var(--gr-lt)":"var(--rd-lt)"};color:${ok?"var(--gr)":"var(--rd)"};border:1px solid ${ok?"var(--gr-bd)":"var(--rd-bd)"}`;
+      el.innerHTML=`<div style="display:flex;align-items:flex-start;gap:6px;margin-bottom:${ok?0:6}px"><span style="flex-shrink:0;font-size:14px">${ok?"✓":"✗"}</span><span style="font-weight:500">${c.tx}</span></div>${!ok?`<p style="font-size:11px;margin:0;font-style:italic;padding-left:20px;opacity:.88">${c.ex}</p>`:""}`;
+      zn.appendChild(el);
+    });
+  });
+}
+
+function zoneClick(z){
+  if(!selCard)return;
+  const id=selCard;
+  pl[id]=z;selCard=null;
+  const hint=document.getElementById("selHint");
+  if(hint)hint.textContent="Click a card to select it, then click a column.";
+  const card=cards.find(c=>c.id===id);
+  bDeck();rZones();
+  if(card&&pl[id]!==card.co){
+    const zone=document.getElementById("z-"+z);
+    if(zone)shak(zone.parentElement);
+  }
+  chkSortDone();
+}
+
+function dD(e,z){
+  e.preventDefault();
+  document.querySelectorAll(".szone").forEach(s=>s.classList.remove("over"));
+  const id=e.dataTransfer.getData("text");if(!id)return;
+  pl[id]=z;bDeck();rZones();
+  const card=cards.find(c=>c.id===id);
+  if(card&&pl[id]!==card.co){
+    const zone=document.getElementById("z-"+z);
+    if(zone)shak(zone.parentElement);
+  }
+  chkSortDone();
+}
+
+function chkSortDone(){
+  if(!cards.every(c=>pl[c.id]))return;
+  const cor=cards.filter(c=>pl[c.id]===c.co).length,wr=6-cor;
+  if(cor===6)burst();
+  document.getElementById("sDone").style.display="block";
+  document.getElementById("sDone").innerHTML=
+    `<div class="card c-info" style="border:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px">
+        <p style="font-size:13.5px;font-weight:700;color:var(--bl);margin:0">&#10003; All sorted &#8212; ${cor}/6 correct${cor===6?" &#127881;":""}</p>
+        ${wr>0?`<button class="ghost ghost-sm" onclick="retryWrong()">&#8635; Retry ${wr} wrong</button>`:""}
+      </div>
+      <p style="font-size:12.5px;color:#1E40AF;line-height:1.5">${wr===0?"Perfect score. All six placed correctly.":"Incorrect cards show explanations above. Hit Retry to move them back to the deck."}</p>
+    </div>`;
+}
+
+function retryWrong(){
+  cards.filter(c=>pl[c.id]&&pl[c.id]!==c.co).forEach(c=>{delete pl[c.id];delete hints[c.id];});
+  document.querySelectorAll(".zone-hdr").forEach(h=>h.classList.remove("hint-header"));
+  rZones();bDeck();document.getElementById("sDone").style.display="none";
+}
+
+function rSort(){
+  Object.keys(pl).forEach(k=>delete pl[k]);
+  Object.keys(hints).forEach(k=>delete hints[k]);
+  selCard=null;
+  ["mit","ada","both"].forEach(z=>document.getElementById("z-"+z).innerHTML="");
+  document.getElementById("sDone").style.display="none";
+  const hint=document.getElementById("selHint");
+  if(hint)hint.textContent="Click a card to select it, then click a column.";
+  document.querySelectorAll(".zone-hdr").forEach(h=>h.classList.remove("hint-header"));
+  bDeck();
+}
+
+// —— CLOSING —————————————————————————————————————————————————
+const pins=[
+  {lb:"Climate change is a living experience in Nunavut",rg:"Kitikmeot",q:"Which is a documented example of climate change affecting daily life in Nunavut?",opts:["Sea ice forming weeks later than historical norms","Increased snowfall improving overland travel routes","Warmer summers enabling new agricultural crops"],co:0,ex:"Reduced and later-forming sea ice is one of the most documented and consequential climate impacts in Nunavut, affecting hunting access, safe travel, and food security across the territory."},
+  {lb:"IQ and Western science are co-equal knowledge systems",rg:"Kivalliq",q:"How is Inuit Qaujimajatuqangit positioned in this course relative to Western scientific data?",opts:["As a supplementary cultural perspective to support the science","As a co-equal knowledge system, given equal weight throughout","As historical context for pre-contact Inuit life only"],co:1,ex:"A foundational commitment of this course is that IQ is not supplementary to Western science — it is an equally valid and often earlier source of environmental knowledge. IQ documented atmospheric changes before instruments confirmed them."},
+  {lb:"Climate change affects interconnected systems",rg:"Kivalliq",q:"Permafrost thaw in Nunavut simultaneously affects which combination?",opts:["Infrastructure only","Infrastructure and food security only","Infrastructure, food security, mental health, cultural practices, and governance — all at once"],co:2,ex:"Climate impacts in Nunavut never occur in silos. Permafrost thaw alone affects building stability, water systems, land access, mental wellbeing, and cultural practices tied to land use — simultaneously and in ways that compound each other."},
+  {lb:"Inuit are stewards of land, water, and ice",rg:"Qikiqtani",q:"What does the framing of Inuit as stewards mean for non-Inuit learners in Nunavut?",opts:["Non-Inuit have no role to play in climate action in Nunavut","Non-Inuit play a supportive role as allies to Inuit-led stewardship","Non-Inuit should defer all climate decisions to Inuit governance bodies"],co:1,ex:"Inuit self-determination and stewardship are foundational — non-Inuit are invited into a supportive, ally role, not a leadership one. This framing shapes how all climate decisions in Nunavut should be approached."},
+  {lb:"Effective climate response integrates IQ and governance",rg:"Qikiqtani",q:"Which approach best reflects the integration of IQ and governance taught in this course?",opts:["Scientific data collection shared with government agencies","Revitalising Inuit land practices alongside Nunavut Land Claim Agreement implementation","Publishing international reports about Arctic climate policy"],co:1,ex:"The NLCA and Inuit governance structures are the instruments through which IQ-grounded climate responses can be implemented at scale. Cultural revitalisation and governance are not separate strategies — they are the same strategy."}
+];
+const ans={};
+function sP(i){
+  const p=pins[i],done=ans[i]!==undefined,prev=(i+4)%5,next=(i+1)%5;
+  document.getElementById("pinPanel").innerHTML=
+    `<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+      <span class="badge b-bl">Takeaway ${i+1} &#183; ${p.rg}</span>
+      ${done?`<span class="badge ${ans[i]===p.co?"b-gr":"b-re"}">${ans[i]===p.co?"✓ Correct":"✗ Incorrect"}</span>`:""}
+    </div>
+    <p style="font-size:14px;font-weight:700;margin:0 0 10px;line-height:1.3;color:var(--tx1)">${p.lb}</p>
+    <p style="font-size:12.5px;color:var(--tx2);margin:0 0 12px;line-height:1.55">${p.q}</p>
+    <div>${p.opts.map((o,j)=>{
+      let cls="qbtn";
+      if(done&&j===p.co)cls+=" correct";
+      else if(done&&j===ans[i]&&j!==p.co)cls+=" wrong";
+      return `<button class="${cls}" onclick="aP(${i},${j})" ${done?"disabled":""}><span class="q-dot"></span>${o}</button>`;
+    }).join("")}</div>
+    ${done?`<div class="iq" style="margin-top:14px"><div class="iq-icon">&#127807;</div><div><p class="iq-label">Why this answer</p><p class="iq-p" style="font-size:12px">${p.ex}</p></div></div>`:"" }
+    <div class="nav-row">
+      <button class="nav-btn" onclick="sP(${prev})">&#8592; ${prev+1}</button>
+      <span class="nav-ct">${Object.keys(ans).length}/5 answered</span>
+      <button class="nav-btn" onclick="sP(${next})">${next+1} &#8594;</button>
+    </div>`;
+}
+function aP(pin,choice){
+  ans[pin]=choice;
+  const ok=choice===pins[pin].co;
+  document.getElementById("pc"+pin).setAttribute("fill",ok?"#1A7340":"#B91C1C");
+  const pr=document.getElementById("pr"+pin),pt=document.getElementById("pt"+pin);
+  if(pr){pr.setAttribute("display","inline");pr.setAttribute("fill",ok?"#16A34A":"#DC2626");}
+  if(pt){pt.setAttribute("display","inline");pt.textContent=ok?"✓":"✗";}
+  pinPop(pin);
+  sP(pin);
+  const done=Object.keys(ans).length;
+  document.getElementById("pBar").style.width=(done/5*100)+"%";
+  document.getElementById("pTxt").textContent=done+" / 5";
+  if(done===5){
+    const cor=pins.filter((_,i)=>ans[i]===pins[i].co).length,wr=5-cor;
+    if(cor===5)setTimeout(burst,300);
+    document.getElementById("completionBox").style.display="block";
+    document.getElementById("completionBox").innerHTML=
+      `<div class="card c-teal">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#059669;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:white;font-size:20px">✓</div>
+          <div><p style="font-size:15px;font-weight:700;color:#064E3B;margin:0">Course 1 complete &#8212; ${cor}/5 correct${cor===5?" &#127881;":""}</p>
+          ${wr>0?`<p style="font-size:12px;color:#065F46;margin:3px 0 0">Review the explanations above, then retry incorrect questions.</p>`:""}
+          </div>
+        </div>
+        ${wr>0?`<button class="ghost" onclick="retryPins()" style="font-size:12.5px;padding:7px 14px;margin-bottom:10px">&#8635; Retry ${wr} incorrect answer${wr>1?"s":""}</button>`:""}
+        <p style="font-size:12.5px;color:#065F46;line-height:1.55">${cor===5?"All five takeaways reviewed correctly. In the final build this unlocks a completion certificate and a prompt to proceed to Course 2.":"In the final build, re-attempting incorrect answers is part of the learning design before a certificate is issued."}</p>
+      </div>`;
+  }
+}
+function retryPins(){
+  pins.forEach((_,i)=>{
+    if(ans[i]!==undefined&&ans[i]!==pins[i].co){
+      delete ans[i];
+      document.getElementById("pc"+i).setAttribute("fill","#E07B2A");
+      const pr=document.getElementById("pr"+i),pt=document.getElementById("pt"+i);
+      if(pr)pr.setAttribute("display","none");if(pt)pt.setAttribute("display","none");
+    }
+  });
+  document.getElementById("completionBox").style.display="none";
+  const d=Object.keys(ans).length;
+  document.getElementById("pBar").style.width=(d/5*100)+"%";
+  document.getElementById("pTxt").textContent=d+" / 5";
+  document.getElementById("pinPanel").innerHTML=
+    `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:270px;gap:16px;text-align:center">
+      <div style="width:56px;height:56px;border-radius:50%;background:var(--br-lt);display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:var(--sh)">&#128506;</div>
+      <div><p style="font-size:15px;font-weight:700;color:var(--tx1);margin:0 0 6px">Retry mode</p><p style="font-size:12.5px;color:var(--tx3);max-width:170px;margin:0 auto;line-height:1.5">Click a red &#10007; pin to retry that question</p></div>
+    </div>`;
+}
+
+// —— INIT deferred to end ————————————————————————————————
+
+
+
+// —— LMS STATE & UTILITIES ———————————————————————————————————
+const lmsComp=[false,false,false,false,false];
+const lmsProg=[0,0,0,0,0];
+let harvestStep=0;
+
+function toggleInst(n){
+  const p=document.getElementById("inst"+n);
+  const btn=p.previousElementSibling;
+  const open=p.style.display==="block";
+  p.style.display=open?"none":"block";
+  btn.classList.toggle("open",!open);
+  btn.querySelector("span:first-child").textContent=open?"Show instructions":"Hide instructions";
+}
+
+function updateFooter(n,prog,complete){
+  lmsProg[n]=prog;
+  const icon=document.getElementById("csIcon"+n);
+  const label=document.getElementById("csLabel"+n);
+  const hint=document.getElementById("csHint"+n);
+  const bar=document.getElementById("csProg"+n);
+  const btn=document.getElementById("csBtn"+n);
+  if(!icon)return;
+  bar.style.width=Math.round(prog)+"%";
+  if(lmsComp[n]){
+    icon.className="comp-status-icon cs-complete";icon.textContent="✓";
+    label.textContent="Complete";hint.textContent="This activity is marked complete.";
+    if(btn){btn.textContent="✓ Completed";btn.className="btn-complete done";btn.disabled=false;}
+  } else if(complete){
+    icon.className="comp-status-icon cs-inprogress";icon.innerHTML="▶";
+    label.textContent="Ready to mark complete";hint.textContent="Click the button to record your completion.";
+    if(btn)btn.disabled=false;
+  } else if(prog>0){
+    icon.className="comp-status-icon cs-inprogress";icon.innerHTML="▶";
+    label.textContent="In progress (±"+Math.round(prog)+"%)";
+    if(btn)btn.disabled=true;
+  }
+}
+
+function markComplete(n){
+  if(lmsComp[n])return;
+  lmsComp[n]=true;
+  updateFooter(n,100,true);
+  // Refresh stepper states
+  document.querySelectorAll(".step-btn").forEach((b,i)=>{
+    b.classList.remove("s-current","s-done");
+    const active=document.querySelector(".pnl.on");
+    const cur=active?parseInt(active.id.replace("p","")):-1;
+    if(i===cur)b.classList.add("s-current");
+    else if(lmsComp[i])b.classList.add("s-done");
+  });
+  document.querySelectorAll(".step-conn").forEach((c,i)=>{
+    c.classList.toggle("s-done",lmsComp[i]);
+  });
+  // Completion banner
+  const body=document.querySelector("#p"+n+" .act-body");
+  if(body&&!body.querySelector(".complete-banner")){
+    const banner=document.createElement("div");
+    banner.className="complete-banner";
+    const labels=["Worldview harvest","Community impact map","Sort activity","Closing summary"];
+    const nextLink=n<4
+      ?`<button onclick="goToAct(${n+1})" style="background:none;border:none;color:#065F46;font-weight:700;cursor:pointer;font-size:12.5px;padding:0;font-family:inherit">Continue to Activity ${n+2}: ${labels[n]} &#8594;</button>`
+      :"You have completed all five activities in this module.";
+    banner.innerHTML=`<div class="cb-icon">✓</div><div class="cb-text"><p>Activity ${n+1} complete &#8212; well done</p><p>${nextLink}</p></div>`;
+    body.appendChild(banner);
+    banner.scrollIntoView({behavior:"smooth",block:"nearest"});
+  }
+}
+
+function goToAct(n){
+  document.querySelectorAll(".pnl").forEach((p,i)=>p.classList.toggle("on",i===n));
+  document.querySelectorAll(".step-btn").forEach((b,i)=>{
+    b.classList.remove("s-current","s-done");
+    if(i===n)b.classList.add("s-current");
+    else if(lmsComp[i])b.classList.add("s-done");
+  });
+  document.querySelectorAll(".step-conn").forEach((c,i)=>c.classList.toggle("s-done",lmsComp[i]));
+  const titles=["Greenhouse effect diagram","Worldview harvest","Community impact map","Mitigation vs. adaptation sort","Course 1 closing summary"];
+  const bc=document.getElementById("bcCurrent");
+  if(bc)bc.textContent=titles[n];
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+// —— LMS COMPLETION HOOKS —————————————————————————————————————
+const _origSelHS2=selHS;
+selHS=function(i){
+  _origSelHS2(i);
+  const p=hsVis.size/4*100;
+  updateFooter(0,p,hsVis.size===4);
+};
+
+const _origGoHv=goHv;
+goHv=function(s){
+  _origGoHv(s);
+  harvestStep=Math.max(harvestStep,s);
+  updateFooter(1,harvestStep/3*100,harvestStep>=3);
+};
+
+const _origSC=sC;
+sC=function(i){
+  _origSC(i);
+  const v=cmVis.size;
+  updateFooter(2,v/5*100,v>=3);
+};
+
+const _origBDeck=bDeck;
+bDeck=function(){
+  _origBDeck();
+  const placed=cards.filter(c=>pl[c.id]).length;
+  updateFooter(3,placed/6*100,placed===6);
+};
+
+const _origAP=aP;
+aP=function(pin,choice){
+  _origAP(pin,choice);
+  const answered=Object.keys(ans).length;
+  updateFooter(4,answered/5*100,answered===5);
+};
+
+// Update breadcrumb on tab switch
+// sw already handles panels + stepper via goToAct / direct calls
+// patch original sw to also update breadcrumb
+const _origSWbc=sw;
+sw=function(n){
+  _origSWbc(n);
+  const titles=["Greenhouse effect diagram","Worldview harvest","Community impact map","Mitigation vs. adaptation sort","Course 1 closing summary"];
+  const bc=document.getElementById("bcCurrent");
+  if(bc)bc.textContent=titles[n];
+  document.querySelectorAll(".step-btn").forEach((b,i)=>{
+    b.classList.remove("s-current","s-done");
+    if(i===n)b.classList.add("s-current");
+    else if(lmsComp[i])b.classList.add("s-done");
+  });
+  document.querySelectorAll(".step-conn").forEach((c,i)=>c.classList.toggle("s-done",lmsComp[i]));
+  if(typeof updateMobileStepper==="function") updateMobileStepper(n);
+};
+
+bDeck();buildPills();
+
+// —— MOBILE STEPPER ——————————————————————————————————————————
+const _actTitles = ["Greenhouse effect", "Worldview harvest", "Community map", "Sort activity", "Closing summary"];
+const _actMeta   = ["Diagram exploration · 5 min", "Decision-making activity · 8 min", "Interactive map · 10 min", "Sorting activity · 6 min", "Knowledge check · 5 min"];
+
+function updateMobileStepper(n) {
+  const lbl = document.getElementById("smpLabel");
+  const sub = document.getElementById("smpSub");
+  const prev = document.getElementById("smpPrev");
+  const next = document.getElementById("smpNext");
+  if(lbl) lbl.textContent = "Activity " + (n+1) + " of 5: " + _actTitles[n];
+  if(sub) sub.textContent = _actMeta[n];
+  if(prev) prev.disabled = n === 0;
+  if(next) next.disabled = n === 4;
+  document.querySelectorAll(".smd").forEach((d,i) => {
+    d.className = "smd" + (i===n?" cur":lmsComp[i]?" done":"");
+  });
+}
+
+function prevAct() {
+  const cur = [...document.querySelectorAll(".pnl")].findIndex(p=>p.classList.contains("on"));
+  if(cur > 0) { sw(cur-1); updateMobileStepper(cur-1); }
+}
+
+function nextAct() {
+  const cur = [...document.querySelectorAll(".pnl")].findIndex(p=>p.classList.contains("on"));
+  if(cur < 4) { sw(cur+1); updateMobileStepper(cur+1); }
+}
+
+</script>
+</body>
+</html>
