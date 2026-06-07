@@ -1116,10 +1116,14 @@ function useStarter(btn){
   t.value=t.value?t.value.replace(/\s*$/,"")+"\n"+txt:txt;
   t.focus();saveJournal();
 }
+let _journalTimer=null;
 function saveJournal(){
   const t=document.getElementById("hvJournal"),s=document.getElementById("hvSaved");if(!t)return;
   try{localStorage.setItem("nccs-hv-journal",t.value);}catch(e){}
-  if(s){s.textContent=t.value.trim()?"✓ Saved on this device":"";}
+  if(s){s.textContent=t.value.trim()?(SCORM.present?"✓ Saved to your LMS record":"✓ Saved on this device"):"";}
+  // debounce the heavier suspend_data write so we don't commit on every keystroke
+  clearTimeout(_journalTimer);
+  _journalTimer=setTimeout(persistState,800);
 }
 
 // —— MAP —————————————————————————————————————————————————————
@@ -1527,6 +1531,103 @@ const lmsComp=[false,false,false,false,false];
 const lmsProg=[0,0,0,0,0];
 let harvestStep=0;
 
+// —— SCORM RUNTIME ————————————————————————————————————————————
+// Finds a SCORM 2004 (API_1484_11) or 1.2 (API) adapter on the iframe
+// parent chain / opener. When none is found (opened directly in a browser),
+// every method is a safe no-op and state falls back to localStorage.
+const SCORM=(function(){
+  let api=null,ver=null,active=false;
+  function scan(win){
+    let n=0;
+    while(win&&n++<15){
+      if(win.API_1484_11)return{a:win.API_1484_11,v:"2004"};
+      if(win.API)return{a:win.API,v:"1.2"};
+      if(win.parent===win)break;
+      win=win.parent;
+    }
+    return null;
+  }
+  function locate(){
+    let f=null;
+    try{f=scan(window);}catch(e){}
+    if(!f&&window.opener){try{f=scan(window.opener);}catch(e){}}
+    return f;
+  }
+  function call(m2004,m12,args){
+    if(!api)return"";
+    try{return api[ver==="2004"?m2004:m12].apply(api,args);}catch(e){return"";}
+  }
+  return{
+    present:false,
+    init(){
+      const f=locate();if(!f)return false;
+      api=f.a;ver=f.v;
+      const r=call("Initialize","LMSInitialize",[""]);
+      active=(r===true||r==="true");this.present=active;return active;
+    },
+    get(k){return call("GetValue","LMSGetValue",[k]);},
+    set(k,v){return call("SetValue","LMSSetValue",[k,String(v)]);},
+    commit(){return call("Commit","LMSCommit",[""]);},
+    terminate(){if(active){call("Terminate","LMSFinish",[""]);active=false;}},
+    setCompleted(){this.set(ver==="2004"?"cmi.completion_status":"cmi.core.lesson_status","completed");},
+    setPassed(){this.set(ver==="2004"?"cmi.success_status":"cmi.core.lesson_status","passed");},
+    setProgress(f){if(ver==="2004")this.set("cmi.progress_measure",Math.max(0,Math.min(1,f)).toFixed(4));},
+    setScore(scaled,raw,min,max){
+      if(ver==="2004"){this.set("cmi.score.scaled",scaled.toFixed(4));this.set("cmi.score.raw",raw);this.set("cmi.score.min",min);this.set("cmi.score.max",max);}
+      else{this.set("cmi.core.score.raw",raw);this.set("cmi.core.score.min",min);this.set("cmi.core.score.max",max);}
+    },
+    saveSuspend(o){this.set("cmi.suspend_data",JSON.stringify(o));},
+    loadSuspend(){const s=this.get("cmi.suspend_data");if(!s)return null;try{return JSON.parse(s);}catch(e){return null;}}
+  };
+})();
+
+const _STORE_KEY="nccs-cc101-state";
+function _readJournal(){try{return localStorage.getItem("nccs-hv-journal")||"";}catch(e){return"";}}
+function gatherState(){
+  return{v:1,comp:lmsComp.slice(),prog:lmsProg.map(p=>Math.round(p)),journal:_readJournal().slice(0,1500)};
+}
+function persistState(){
+  const st=gatherState();
+  if(SCORM.present)SCORM.saveSuspend(st);
+  try{localStorage.setItem(_STORE_KEY,JSON.stringify(st));}catch(e){}
+}
+function loadPersisted(){
+  let st=null;
+  if(SCORM.present)st=SCORM.loadSuspend();
+  if(!st){try{st=JSON.parse(localStorage.getItem(_STORE_KEY)||"null");}catch(e){st=null;}}
+  return st;
+}
+// Report completion/score to the LMS. Non-punitive: finishing all five = passed.
+function reportProgress(){
+  const done=lmsComp.filter(Boolean).length;
+  if(SCORM.present){
+    SCORM.setProgress(done/5);
+    if(done===5){
+      const correct=pins.filter((_,i)=>ans[i]===pins[i].co).length;
+      SCORM.setScore(correct/5,correct,0,5);
+      SCORM.setCompleted();
+      SCORM.setPassed();
+    }
+  }
+  persistState();
+  if(SCORM.present)SCORM.commit();
+}
+// On resume, re-apply any previously recorded completion to the UI.
+function restoreState(){
+  const st=loadPersisted();if(!st)return;
+  if(st.journal){try{localStorage.setItem("nccs-hv-journal",st.journal);}catch(e){}
+    const t=document.getElementById("hvJournal");if(t)t.value=st.journal;}
+  if(Array.isArray(st.comp)){
+    st.comp.forEach((c,i)=>{
+      if(c){lmsComp[i]=true;updateFooter(i,100,true);}
+      else if(st.prog&&st.prog[i]>0){updateFooter(i,st.prog[i],false);}
+    });
+    document.querySelectorAll(".step-btn").forEach((b,i)=>{if(lmsComp[i])b.classList.add("s-done");});
+    document.querySelectorAll(".step-conn").forEach((c,i)=>c.classList.toggle("s-done",lmsComp[i]));
+    document.querySelectorAll(".smd").forEach((d,i)=>{if(lmsComp[i])d.classList.add("done");});
+  }
+}
+
 function toggleInst(n){
   const p=document.getElementById("inst"+n);
   const btn=p.previousElementSibling;
@@ -1588,6 +1689,7 @@ function markComplete(n){
     body.appendChild(banner);
     banner.scrollIntoView({behavior:"smooth",block:"nearest"});
   }
+  reportProgress();
 }
 
 function goToAct(n){
@@ -1704,6 +1806,14 @@ function nextAct() {
   const cur = [...document.querySelectorAll(".pnl")].findIndex(p=>p.classList.contains("on"));
   if(cur < 4) { sw(cur+1); updateMobileStepper(cur+1); }
 }
+
+// —— SCORM SESSION ————————————————————————————————————————————
+// Connect to the LMS (no-op standalone), then restore any prior progress.
+SCORM.init();
+restoreState();
+// Close the SCORM session cleanly when the learner leaves.
+window.addEventListener("pagehide",function(){persistState();SCORM.terminate();});
+window.addEventListener("beforeunload",function(){persistState();SCORM.terminate();});
 
 </script>
 </body>
