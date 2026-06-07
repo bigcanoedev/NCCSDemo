@@ -152,7 +152,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .cm-pill{display:inline-flex;align-items:center;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:500;cursor:pointer;border:1px solid var(--bd);background:var(--surf);font-family:inherit;transition:all .15s;white-space:nowrap}
 .cm-pill:hover:not(.cm-act){background:#F3EFE8;border-color:#D4CEC5}
 .cm-act{background:var(--mn)!important;color:white!important;border-color:var(--mn)!important}
-.cm-vis:not(.cm-act){border-color:var(--bl-bd);color:var(--bl);background:var(--bl-lt)}
+.cm-vis:not(.cm-act){border-color:var(--tl-bd);color:var(--tl);background:var(--tl-lt)}
 /* Nav */
 .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:14px;border-top:1px solid var(--bd-lt)}
 .nav-btn{background:var(--surf);border:1px solid var(--bd);padding:6px 14px;border-radius:var(--r-xs);font-size:12px;font-weight:500;cursor:pointer;color:var(--tx2);font-family:inherit;transition:all .15s}
@@ -183,6 +183,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .cb-icon{width:36px;height:36px;border-radius:50%;background:var(--gr);color:white;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .cb-text p:first-child{font-size:14px;font-weight:700;color:#064E3B;margin:0 0 2px}
 .cb-text p:last-child{font-size:12.5px;color:#065F46;margin:0;line-height:1.5}
+
+/* Two-ways-of-knowing: equal-weight parallel cards (IQ co-equal to Western science) */
+.know-pair{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.know-card{border:1px solid var(--bd);border-radius:var(--r-sm);padding:13px 15px;border-top-width:3px}
+.know-sci{background:var(--bl-lt);border-color:var(--bl-bd);border-top-color:var(--bl)}
+.know-iq{background:var(--tl-lt);border-color:var(--tl-bd);border-top-color:var(--tl)}
+.know-hd{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.know-icon{font-size:15px;line-height:1}
+.know-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.know-sci .know-lbl{color:var(--bl)}
+.know-iq .know-lbl{color:var(--tl)}
+.know-tx{font-size:12.5px;line-height:1.65;margin:0}
+.know-sci .know-tx{color:#1E3A8A}
+.know-iq .know-tx{color:#047857}
+
+/* Greenhouse diagram: dim non-focused flows when a hotspot is selected */
+#ghSvg[data-focus] .gh-solar,#ghSvg[data-focus] .gh-ir,#ghSvg[data-focus] .gh-irdn,#ghSvg[data-focus] .gh-mol{opacity:.12;transition:opacity .35s ease}
+#ghSvg[data-focus="0"] .gh-solar{opacity:1}
+#ghSvg[data-focus="1"] .gh-mol,#ghSvg[data-focus="1"] .gh-ir,#ghSvg[data-focus="1"] .gh-irdn{opacity:1}
+#ghSvg[data-focus="2"] .gh-ir,#ghSvg[data-focus="2"] .gh-solar{opacity:1}
+#ghSvg[data-focus="3"] .gh-mol{opacity:1}
+
+/* Keyboard focus visibility for all interactive elements (LMS accessibility) */
+svg [tabindex]:focus-visible{outline:3px solid var(--mn);outline-offset:2px}
+svg [tabindex]:focus{outline:3px solid var(--mn);outline-offset:2px}
+.sort-card:focus-visible,.qbtn:focus-visible,.cm-pill:focus-visible,.nav-btn:focus-visible,.btn:focus-visible,.ghost:focus-visible,.btn-complete:focus-visible,.play-btn:focus-visible,.step-btn:focus-visible,.smp-btn:focus-visible,.inst-toggle:focus-visible{outline:3px solid var(--mn);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
 
 /* —————————————————————————————————————————————————————————
    MOBILE RESPONSIVE  ≤ 680px
@@ -345,7 +374,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
       <div class="act-body">
 <div style="display:grid;grid-template-columns:1fr 306px;gap:20px;align-items:start">
     <div class="card-bare">
-      <svg viewBox="0 0 500 345" width="100%" style="display:block">
+      <svg viewBox="0 0 500 345" width="100%" style="display:block" id="ghSvg" role="group" aria-label="Greenhouse effect diagram with four explorable zones">
   <defs>
     <marker id="ay" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0L7,3.5L0,7Z" fill="#B45309"/></marker>
     <marker id="ar" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0L7,3.5L0,7Z" fill="#B91C1C"/></marker>
@@ -373,23 +402,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   <text x="52" y="48" text-anchor="middle" font-size="9" font-weight="700" fill="#78350F" font-family="sans-serif">SUN</text>
 
   <!-- Shortwave arrows -->
-  <line x1="86" y1="52" x2="162" y2="74" stroke="#D97706" stroke-width="2" marker-end="url(#ay)" class="ar-solar"/>
-  <line x1="98" y1="55" x2="222" y2="74" stroke="#D97706" stroke-width="2" marker-end="url(#ay)" class="ar-solar"/>
-  <line x1="110" y1="58" x2="286" y2="74" stroke="#D97706" stroke-width="2" marker-end="url(#ay)" class="ar-solar"/>
-  <line x1="168" y1="134" x2="181" y2="260" stroke="#D97706" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#ay)" opacity=".55"/>
-  <line x1="208" y1="134" x2="223" y2="260" stroke="#D97706" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#ay)" opacity=".55"/>
+  <line x1="86" y1="52" x2="162" y2="74" stroke="#D97706" stroke-width="2" marker-end="url(#ay)" class="ar-solar gh-solar"/>
+  <line x1="98" y1="55" x2="222" y2="74" stroke="#D97706" stroke-width="2" marker-end="url(#ay)" class="ar-solar gh-solar"/>
+  <line x1="110" y1="58" x2="286" y2="74" stroke="#D97706" stroke-width="2" marker-end="url(#ay)" class="ar-solar gh-solar"/>
+  <line x1="168" y1="134" x2="181" y2="260" stroke="#D97706" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#ay)" opacity=".55" class="gh-solar"/>
+  <line x1="208" y1="134" x2="223" y2="260" stroke="#D97706" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#ay)" opacity=".55" class="gh-solar"/>
 
   <!-- Longwave arrows -->
-  <line x1="264" y1="260" x2="278" y2="136" stroke="#DC2626" stroke-width="2" marker-end="url(#ar)" class="ar-ir-up"/>
-  <line x1="306" y1="260" x2="314" y2="136" stroke="#DC2626" stroke-width="2" marker-end="url(#ar)" class="ar-ir-up"/>
-  <line x1="348" y1="260" x2="350" y2="136" stroke="#DC2626" stroke-width="2" marker-end="url(#ar)" class="ar-ir-up"/>
-  <line x1="287" y1="136" x2="275" y2="260" stroke="#DC2626" stroke-width="1.3" opacity=".38" marker-end="url(#ar)" class="ar-ir-dn"/>
-  <line x1="325" y1="136" x2="313" y2="260" stroke="#DC2626" stroke-width="1.3" opacity=".38" marker-end="url(#ar)" class="ar-ir-dn"/>
-  <line x1="400" y1="260" x2="412" y2="136" stroke="#DC2626" stroke-width="1" opacity=".2" marker-end="url(#ar)"/>
-  <line x1="416" y1="136" x2="424" y2="44" stroke="#DC2626" stroke-width="1" stroke-dasharray="4,3" opacity=".16"/>
+  <line x1="264" y1="260" x2="278" y2="136" stroke="#DC2626" stroke-width="2" marker-end="url(#ar)" class="ar-ir-up gh-ir"/>
+  <line x1="306" y1="260" x2="314" y2="136" stroke="#DC2626" stroke-width="2" marker-end="url(#ar)" class="ar-ir-up gh-ir"/>
+  <line x1="348" y1="260" x2="350" y2="136" stroke="#DC2626" stroke-width="2" marker-end="url(#ar)" class="ar-ir-up gh-ir"/>
+  <line x1="287" y1="136" x2="275" y2="260" stroke="#DC2626" stroke-width="1.3" opacity=".38" marker-end="url(#ar)" class="ar-ir-dn gh-irdn"/>
+  <line x1="325" y1="136" x2="313" y2="260" stroke="#DC2626" stroke-width="1.3" opacity=".38" marker-end="url(#ar)" class="ar-ir-dn gh-irdn"/>
+  <line x1="400" y1="260" x2="412" y2="136" stroke="#DC2626" stroke-width="1" opacity=".2" marker-end="url(#ar)" class="gh-irdn"/>
+  <line x1="416" y1="136" x2="424" y2="44" stroke="#DC2626" stroke-width="1" stroke-dasharray="4,3" opacity=".16" class="gh-irdn"/>
 
   <!-- GHG molecules -->
-  <g filter="url(#glow)">
+  <g filter="url(#glow)" class="gh-mol">
     <circle cx="218" cy="100" r="8" fill="#FCA5A5"/><circle cx="218" cy="100" r="5" fill="#EF4444"/>
     <text x="231" y="104" font-size="8.5" fill="#7F1D1D" font-family="sans-serif" font-weight="500">CO&#8322;</text>
     <circle cx="286" cy="88" r="8" fill="#FCA5A5"/><circle cx="286" cy="88" r="5" fill="#EF4444"/>
@@ -401,7 +430,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   </g>
 
   <!-- Hotspot 1 — Sun -->
-  <g id="hs0" onclick="selHS(0)" style="cursor:pointer">
+  <g id="hs0" onclick="selHS(0)" style="cursor:pointer" tabindex="0" role="button" aria-label="Zone 1: The sun and shortwave radiation">
     <circle cx="52" cy="44" r="34" fill="#E07B2A" opacity=".12"/>
     <circle cx="52" cy="44" r="34" fill="none" stroke="#E07B2A" stroke-width="2"/>
     <circle cx="85" cy="12" r="12" fill="#E07B2A" id="hb0"/>
@@ -409,7 +438,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   </g>
 
   <!-- Hotspot 2 — GHG Layer -->
-  <g id="hs1" onclick="selHS(1)" style="cursor:pointer">
+  <g id="hs1" onclick="selHS(1)" style="cursor:pointer" tabindex="0" role="button" aria-label="Zone 2: Greenhouse gas layer trapping longwave radiation">
     <rect x="148" y="72" width="308" height="62" fill="#E07B2A" opacity=".07" rx="8"/>
     <rect x="148" y="72" width="308" height="62" fill="none" stroke="#E07B2A" stroke-width="2" rx="8"/>
     <circle cx="462" cy="70" r="12" fill="#E07B2A" id="hb1"/>
@@ -417,7 +446,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   </g>
 
   <!-- Hotspot 3 — Surface -->
-  <g id="hs2" onclick="selHS(2)" style="cursor:pointer">
+  <g id="hs2" onclick="selHS(2)" style="cursor:pointer" tabindex="0" role="button" aria-label="Zone 3: Earth's surface absorption and the albedo effect">
     <rect x="148" y="266" width="178" height="66" fill="#E07B2A" opacity=".07" rx="8"/>
     <rect x="148" y="266" width="178" height="66" fill="none" stroke="#E07B2A" stroke-width="2" rx="8"/>
     <text x="162" y="286" font-size="8" fill="#C2410C" font-weight="600" font-family="sans-serif">Surface absorption</text>
@@ -427,7 +456,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   </g>
 
   <!-- Hotspot 4 — Sources -->
-  <g id="hs3" onclick="selHS(3)" style="cursor:pointer">
+  <g id="hs3" onclick="selHS(3)" style="cursor:pointer" tabindex="0" role="button" aria-label="Zone 4: Human versus natural greenhouse gas sources">
     <rect x="338" y="266" width="150" height="66" fill="#E07B2A" opacity=".07" rx="8"/>
     <rect x="338" y="266" width="150" height="66" fill="none" stroke="#E07B2A" stroke-width="2" rx="8"/>
     <text x="352" y="286" font-size="8" fill="#C2410C" font-weight="600" font-family="sans-serif">Human vs. natural</text>
@@ -444,7 +473,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
       </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:12px">
-      <div id="hsPanel" class="card" style="min-height:300px">
+      <div id="hsPanel" class="card" style="min-height:300px" role="region" aria-live="polite" aria-label="Hotspot explanation">
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:230px;gap:14px;text-align:center">
           <div style="width:56px;height:56px;border-radius:50%;background:var(--br-lt);display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:var(--sh)">&#128070;</div>
           <div><p style="font-size:15px;font-weight:700;color:var(--tx1);margin:0 0 6px">Select a hotspot</p><p style="font-size:12.5px;color:var(--tx3);max-width:165px;margin:0 auto;line-height:1.5">Click any numbered region on the diagram to explore it</p></div>
@@ -518,28 +547,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   <div id="hv1" style="display:none">
     <div class="card" style="margin-bottom:18px"><p style="font-size:15px;font-weight:700;margin:0 0 8px">The scenario</p><p style="font-size:13px;color:var(--tx2);line-height:1.65">You are walking the tundra in early summer. You find a ptarmigan nest with <strong>6 eggs</strong>. Your community has enough country food for now. How many do you take? Click an egg directly, or use the slider.</p></div>
     <div style="display:flex;justify-content:center;margin:8px 0 14px">
-      <svg viewBox="0 0 300 135" width="260" id="nSvg">
+      <svg viewBox="0 0 300 135" width="260" id="nSvg" role="group" aria-label="Ptarmigan nest with six eggs">
         <defs><filter id="eggsh"><feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-opacity=".2"/></filter></defs>
         <ellipse cx="150" cy="110" rx="92" ry="24" fill="#C8A060" opacity=".35"/>
         <ellipse cx="150" cy="103" rx="82" ry="18" fill="#A07840" opacity=".22"/>
-        <ellipse id="e5" cx="115" cy="84" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(5)" style="cursor:pointer" filter="url(#eggsh)"/>
-        <ellipse id="e4" cx="136" cy="76" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(4)" style="cursor:pointer" filter="url(#eggsh)"/>
-        <ellipse id="e3" cx="158" cy="76" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(3)" style="cursor:pointer" filter="url(#eggsh)"/>
-        <ellipse id="e2" cx="180" cy="84" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(2)" style="cursor:pointer" filter="url(#eggsh)"/>
-        <ellipse id="e1" cx="122" cy="96" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(1)" style="cursor:pointer" filter="url(#eggsh)"/>
-        <ellipse id="e0" cx="170" cy="96" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(0)" style="cursor:pointer" filter="url(#eggsh)"/>
-        <text x="150" y="128" text-anchor="middle" font-size="8" fill="#9CA3AF" font-family="sans-serif">Click an egg to take it &nbsp;&#8226;&nbsp; blue = taken</text>
+        <ellipse id="e5" cx="115" cy="84" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(5)" style="cursor:pointer" filter="url(#eggsh)" aria-label="Egg 6"/>
+        <ellipse id="e4" cx="136" cy="76" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(4)" style="cursor:pointer" filter="url(#eggsh)" aria-label="Egg 5"/>
+        <ellipse id="e3" cx="158" cy="76" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(3)" style="cursor:pointer" filter="url(#eggsh)" aria-label="Egg 4"/>
+        <ellipse id="e2" cx="180" cy="84" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(2)" style="cursor:pointer" filter="url(#eggsh)" aria-label="Egg 3"/>
+        <ellipse id="e1" cx="122" cy="96" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(1)" style="cursor:pointer" filter="url(#eggsh)" aria-label="Egg 2"/>
+        <ellipse id="e0" cx="170" cy="96" rx="15" ry="19" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" onclick="clickEgg(0)" style="cursor:pointer" filter="url(#eggsh)" aria-label="Egg 1"/>
+        <text x="150" y="128" text-anchor="middle" font-size="8" fill="#9CA3AF" font-family="sans-serif">Tap an egg to take it &#8212; tap again to put it back &nbsp;&#8226;&nbsp; blue = taken</text>
       </svg>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:16px">
       <div style="display:flex;align-items:center;gap:14px;width:100%;max-width:300px">
         <span style="font-size:11.5px;color:var(--tx3);white-space:nowrap">None</span>
-        <input type="range" min="0" max="6" value="0" step="1" id="eslider" style="flex:1;accent-color:var(--br)" oninput="upEgg(parseInt(this.value))"/>
+        <input type="range" min="0" max="6" value="0" step="1" id="eslider" style="flex:1;accent-color:var(--br)" oninput="upEgg(parseInt(this.value))" aria-label="Number of eggs to take, 0 to 6"/>
         <span style="font-size:11.5px;color:var(--tx3);white-space:nowrap">All 6</span>
       </div>
-      <div id="eLabel" style="font-size:15px;font-weight:700;color:var(--br)">Taking 0 eggs</div>
+      <div id="eLabel" style="font-size:15px;font-weight:700;color:var(--br)" aria-live="polite">Taking 0 eggs</div>
     </div>
-    <div id="liveOut" class="card" style="margin-bottom:18px;border-left:4px solid #E5E7EB;border-radius:0 var(--r) var(--r) 0;background:#FAFAF8;box-shadow:none"><p style="font-size:13px;color:var(--tx3);font-style:italic">Adjust the slider or click eggs &#8212; your outcome preview appears here.</p></div>
+    <div id="liveOut" class="card" role="region" aria-live="polite" aria-label="Outcome preview" style="margin-bottom:18px;border-left:4px solid #E5E7EB;border-radius:0 var(--r) var(--r) 0;background:#FAFAF8;box-shadow:none"><p style="font-size:13px;color:var(--tx3);font-style:italic">Adjust the slider or click eggs &#8212; your outcome preview appears here.</p></div>
     <div style="display:flex;gap:10px"><button class="ghost" onclick="goHv(0)">&#8592; Back</button><button class="btn" onclick="goHv(2)">See full outcome &#8594;</button></div>
   </div>
   <div id="hv2" style="display:none">
@@ -547,7 +576,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
     <div style="display:flex;gap:10px"><button class="ghost" onclick="goHv(1)">&#8592; Change decision</button><button class="btn" onclick="goHv(3)">Reflect &#8594;</button></div>
   </div>
   <div id="hv3" style="display:none">
-    <div class="card" style="border-left:4px solid var(--br);border-radius:0 var(--r) var(--r) 0;margin-bottom:18px"><p style="font-size:15px;font-weight:700;margin:0 0 8px">Reflection prompt</p><p style="font-size:13px;color:var(--tx2);line-height:1.65;margin:0 0 8px">Inuit have practised relational decision-making for millennia &#8212; not as an imposed rule, but as lived knowledge about how ecosystems sustain themselves. How does this lens change how you think about resource decisions in your governance role?</p><p style="font-size:11.5px;color:var(--tx3);font-style:italic">This can be journalled or discussed. No single answer is scored.</p></div>
+    <div class="card" style="border-left:4px solid var(--br);border-radius:0 var(--r) var(--r) 0;margin-bottom:18px"><p style="font-size:15px;font-weight:700;margin:0 0 8px">Reflection prompt</p><p style="font-size:13px;color:var(--tx2);line-height:1.65;margin:0 0 12px">Inuit have practised relational decision-making for millennia &#8212; not as an imposed rule, but as lived knowledge about how ecosystems sustain themselves. How does this lens change how you think about resource decisions in your governance role?</p>
+      <p style="font-size:11px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin:0 0 7px">Start a sentence</p>
+      <div id="hvChips" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px"></div>
+      <label for="hvJournal" style="font-size:12px;color:var(--tx2);display:block;margin-bottom:5px">Your reflection (optional &#8212; stays on this device, nothing is submitted)</label>
+      <textarea id="hvJournal" rows="4" placeholder="Type your thoughts, or use a sentence starter above&#8230;" style="width:100%;font-family:inherit;font-size:13px;line-height:1.55;color:var(--tx1);padding:10px 12px;border:1px solid var(--bd);border-radius:var(--r-xs);background:var(--surf);resize:vertical" oninput="saveJournal()"></textarea>
+      <p id="hvSaved" style="font-size:11px;color:var(--gr);margin:6px 0 0;height:14px"></p>
+    </div>
     <div class="iq" style="margin-bottom:20px"><div class="iq-icon">&#127807;</div><div><p class="iq-label">IQ connection</p><p class="iq-p">Inuit Qaujimajatuqangit teaches that all living things exist in relationship. This activity makes that tangible &#8212; not as abstract value, but as a consequence with real ecological stakes that every decision-maker in Nunavut navigates.</p></div></div>
     <button class="ghost" onclick="goHv(0)">&#8635; Start over</button>
   </div>
@@ -633,35 +668,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   <text x="222" y="22" text-anchor="middle" font-size="9" fill="#1D4ED8" font-family="sans-serif" opacity=".6">Arctic Ocean</text>
 
   <!-- Community markers with drop shadow -->
-  <g onclick="sC(0)" style="cursor:pointer" filter="url(#pshadow)">
+  <g onclick="sC(0)" style="cursor:pointer" filter="url(#pshadow)" tabindex="0" role="button" aria-label="Iqaluit, Qikiqtani region">
     <circle cx="376" cy="262" r="18" fill="#E07B2A" id="cm0"/>
     <circle cx="376" cy="262" r="12" fill="white" opacity=".2"/>
     <text x="376" y="266" text-anchor="middle" font-size="9" font-weight="800" fill="white" font-family="sans-serif">IQ</text>
   </g>
   <text x="376" y="288" text-anchor="middle" font-size="9.5" fill="#1E3A8A" font-family="sans-serif" font-weight="600">Iqaluit</text>
 
-  <g onclick="sC(1)" style="cursor:pointer" filter="url(#pshadow)">
+  <g onclick="sC(1)" style="cursor:pointer" filter="url(#pshadow)" tabindex="0" role="button" aria-label="Arviat, Kivalliq region">
     <circle cx="216" cy="272" r="18" fill="#E07B2A" id="cm1"/>
     <circle cx="216" cy="272" r="12" fill="white" opacity=".2"/>
     <text x="216" y="276" text-anchor="middle" font-size="9" font-weight="800" fill="white" font-family="sans-serif">AR</text>
   </g>
   <text x="216" y="298" text-anchor="middle" font-size="9.5" fill="#14532D" font-family="sans-serif" font-weight="600">Arviat</text>
 
-  <g onclick="sC(2)" style="cursor:pointer" filter="url(#pshadow)">
+  <g onclick="sC(2)" style="cursor:pointer" filter="url(#pshadow)" tabindex="0" role="button" aria-label="Cambridge Bay, Kitikmeot region">
     <circle cx="96" cy="180" r="18" fill="#E07B2A" id="cm2"/>
     <circle cx="96" cy="180" r="12" fill="white" opacity=".2"/>
     <text x="96" y="184" text-anchor="middle" font-size="9" font-weight="800" fill="white" font-family="sans-serif">CB</text>
   </g>
   <text x="96" y="206" text-anchor="middle" font-size="9" fill="#92400E" font-family="sans-serif" font-weight="600">Cambridge Bay</text>
 
-  <g onclick="sC(3)" style="cursor:pointer" filter="url(#pshadow)">
+  <g onclick="sC(3)" style="cursor:pointer" filter="url(#pshadow)" tabindex="0" role="button" aria-label="Pond Inlet, Qikiqtani region">
     <circle cx="330" cy="124" r="18" fill="#E07B2A" id="cm3"/>
     <circle cx="330" cy="124" r="12" fill="white" opacity=".2"/>
     <text x="330" y="128" text-anchor="middle" font-size="9" font-weight="800" fill="white" font-family="sans-serif">PI</text>
   </g>
   <text x="330" y="150" text-anchor="middle" font-size="9.5" fill="#1E3A8A" font-family="sans-serif" font-weight="600">Pond Inlet</text>
 
-  <g onclick="sC(4)" style="cursor:pointer" filter="url(#pshadow)">
+  <g onclick="sC(4)" style="cursor:pointer" filter="url(#pshadow)" tabindex="0" role="button" aria-label="Rankin Inlet, Kivalliq region">
     <circle cx="176" cy="226" r="18" fill="#E07B2A" id="cm4"/>
     <circle cx="176" cy="226" r="12" fill="white" opacity=".2"/>
     <text x="176" y="230" text-anchor="middle" font-size="9" font-weight="800" fill="white" font-family="sans-serif">RI</text>
@@ -674,7 +709,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
       </div>
     </div>
     <div>
-      <div id="mapPanel" class="card" style="min-height:340px">
+      <div id="mapPanel" class="card" style="min-height:340px" role="region" aria-live="polite" aria-label="Community climate story">
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:264px;gap:16px;text-align:center">
           <div style="width:56px;height:56px;border-radius:50%;background:var(--br-lt);display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:var(--sh)">&#128205;</div>
           <div><p style="font-size:15px;font-weight:700;color:var(--tx1);margin:0 0 6px">Select a community</p><p style="font-size:12.5px;color:var(--tx3);max-width:165px;margin:0 auto;line-height:1.5">Click a map marker or use the pills below the map</p></div>
@@ -749,21 +784,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
           <p style="font-size:12.5px;font-weight:700;color:var(--bl);margin:0">Mitigation</p>
           <p style="font-size:11px;color:var(--tx3);margin:4px 0 0;line-height:1.4">Reduces greenhouse gas emissions at the source</p>
         </div>
-        <div id="z-mit" class="szone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="dD(event,'mit')" onclick="zoneClick('mit')"></div>
+        <div id="z-mit" class="szone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="dD(event,'mit')" onclick="zoneClick('mit')" aria-label="Mitigation column. Select a card first, then activate to place it here."></div>
       </div>
       <div class="zone-card">
         <div class="zone-hdr zone-hdr-ada">
           <p style="font-size:12.5px;font-weight:700;color:#92400E;margin:0">Adaptation</p>
           <p style="font-size:11px;color:var(--tx3);margin:4px 0 0;line-height:1.4">Responds to and prepares for climate impacts</p>
         </div>
-        <div id="z-ada" class="szone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="dD(event,'ada')" onclick="zoneClick('ada')"></div>
+        <div id="z-ada" class="szone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="dD(event,'ada')" onclick="zoneClick('ada')" aria-label="Adaptation column. Select a card first, then activate to place it here."></div>
       </div>
       <div class="zone-card">
         <div class="zone-hdr zone-hdr-both">
           <p style="font-size:12.5px;font-weight:700;color:var(--gr);margin:0">Both</p>
           <p style="font-size:11px;color:var(--tx3);margin:4px 0 0;line-height:1.4">Addresses emissions and resilience together</p>
         </div>
-        <div id="z-both" class="szone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="dD(event,'both')" onclick="zoneClick('both')"></div>
+        <div id="z-both" class="szone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="dD(event,'both')" onclick="zoneClick('both')" aria-label="Both column. Select a card first, then activate to place it here."></div>
       </div>
     </div>
 
@@ -818,7 +853,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   </div>
   <div style="display:grid;grid-template-columns:1fr 326px;gap:20px;align-items:start">
     <div class="card-bare">
-      <svg viewBox="0 0 470 328" width="100%" id="closeSvg">
+      <svg viewBox="0 0 470 328" width="100%" id="closeSvg" role="group" aria-label="Nunavut map with five takeaway questions">
   <defs>
     <filter id="pshadow2" x="-30%" y="-30%" width="160%" height="160%">
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.22)"/>
@@ -846,35 +881,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   <line x1="198" y1="245" x2="280" y2="154" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="5,3"/>
   <line x1="280" y1="158" x2="310" y2="202" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="5,3"/>
   <!-- Pins with drop shadow -->
-  <g onclick="sP(0)" style="cursor:pointer" filter="url(#pshadow2)">
+  <g onclick="sP(0)" style="cursor:pointer" filter="url(#pshadow2)" tabindex="0" role="button" aria-label="Takeaway 1, Kitikmeot region question">
     <circle cx="92" cy="160" r="16" fill="#E07B2A" id="pc0"/>
     <circle cx="92" cy="160" r="10" fill="white" opacity=".2"/>
     <text x="92" y="165" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="sans-serif">1</text>
     <circle cx="109" cy="145" r="10" id="pr0" fill="#16A34A" display="none"/>
     <text x="109" y="149" text-anchor="middle" font-size="10" font-weight="700" fill="white" id="pt0" font-family="sans-serif" display="none"></text>
   </g>
-  <g onclick="sP(1)" style="cursor:pointer" filter="url(#pshadow2)">
+  <g onclick="sP(1)" style="cursor:pointer" filter="url(#pshadow2)" tabindex="0" role="button" aria-label="Takeaway 2, Kivalliq region question">
     <circle cx="164" cy="206" r="16" fill="#E07B2A" id="pc1"/>
     <circle cx="164" cy="206" r="10" fill="white" opacity=".2"/>
     <text x="164" y="211" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="sans-serif">2</text>
     <circle cx="181" cy="191" r="10" id="pr1" fill="#16A34A" display="none"/>
     <text x="181" y="195" text-anchor="middle" font-size="10" font-weight="700" fill="white" id="pt1" font-family="sans-serif" display="none"></text>
   </g>
-  <g onclick="sP(2)" style="cursor:pointer" filter="url(#pshadow2)">
+  <g onclick="sP(2)" style="cursor:pointer" filter="url(#pshadow2)" tabindex="0" role="button" aria-label="Takeaway 3, Kivalliq region question">
     <circle cx="198" cy="245" r="16" fill="#E07B2A" id="pc2"/>
     <circle cx="198" cy="245" r="10" fill="white" opacity=".2"/>
     <text x="198" y="250" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="sans-serif">3</text>
     <circle cx="215" cy="230" r="10" id="pr2" fill="#16A34A" display="none"/>
     <text x="215" y="234" text-anchor="middle" font-size="10" font-weight="700" fill="white" id="pt2" font-family="sans-serif" display="none"></text>
   </g>
-  <g onclick="sP(3)" style="cursor:pointer" filter="url(#pshadow2)">
+  <g onclick="sP(3)" style="cursor:pointer" filter="url(#pshadow2)" tabindex="0" role="button" aria-label="Takeaway 4, Qikiqtani region question">
     <circle cx="280" cy="154" r="16" fill="#E07B2A" id="pc3"/>
     <circle cx="280" cy="154" r="10" fill="white" opacity=".2"/>
     <text x="280" y="159" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="sans-serif">4</text>
     <circle cx="297" cy="139" r="10" id="pr3" fill="#16A34A" display="none"/>
     <text x="297" y="143" text-anchor="middle" font-size="10" font-weight="700" fill="white" id="pt3" font-family="sans-serif" display="none"></text>
   </g>
-  <g onclick="sP(4)" style="cursor:pointer" filter="url(#pshadow2)">
+  <g onclick="sP(4)" style="cursor:pointer" filter="url(#pshadow2)" tabindex="0" role="button" aria-label="Takeaway 5, Qikiqtani region question">
     <circle cx="310" cy="202" r="16" fill="#E07B2A" id="pc4"/>
     <circle cx="310" cy="202" r="10" fill="white" opacity=".2"/>
     <text x="310" y="207" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="sans-serif">5</text>
@@ -884,7 +919,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 </svg>
     </div>
     <div>
-      <div id="pinPanel" class="card" style="min-height:340px">
+      <div id="pinPanel" class="card" style="min-height:340px" role="region" aria-live="polite" aria-label="Takeaway question">
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:270px;gap:16px;text-align:center">
           <div style="width:56px;height:56px;border-radius:50%;background:var(--br-lt);display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:var(--sh)">&#128506;</div>
           <div><p style="font-size:15px;font-weight:700;color:var(--tx1);margin:0 0 6px">Select a takeaway</p><p style="font-size:12.5px;color:var(--tx3);max-width:170px;margin:0 auto;line-height:1.5">Click a numbered pin on the map to answer its question</p></div>
@@ -967,22 +1002,31 @@ function selHS(i){
     const g=document.getElementById("hs"+j);if(g)g.style.opacity=j===i?"1":".4";
     const b=document.getElementById("hb"+j);if(b)b.setAttribute("fill",hsVis.has(j)?"#059669":"#E07B2A");
   });
+  const svg=document.getElementById("ghSvg");if(svg)svg.setAttribute("data-focus",i);
   renderHSPanel(i);
 }
 function renderHSPanel(i){
   const d=hsd[i],prev=(i+3)%4,next=(i+1)%4;
+  // Two knowledge systems presented as equal-weight parallel cards (IQ is co-equal, never a sub-note).
   document.getElementById("hsPanel").innerHTML=
     `<div class="badge b-or" style="margin-bottom:10px">Hotspot ${i+1} of 4</div>
     <p style="font-size:15px;font-weight:700;margin:0 0 12px;line-height:1.3">${d.t}</p>
-    <p style="font-size:10.5px;font-weight:700;color:#6b7280;margin:0 0 5px;text-transform:uppercase;letter-spacing:.07em">Western science</p>
-    <p style="font-size:12.5px;color:var(--tx2);line-height:1.65;margin:0 0 14px">${d.sci}</p>
-    <div class="iq"><div class="iq-icon">&#127807;</div><div><p class="iq-label">IQ perspective</p><p class="iq-p">${d.iq}</p></div></div>
+    <div class="know-pair">
+      <div class="know-card know-sci">
+        <div class="know-hd"><span class="know-icon">&#128300;</span><span class="know-lbl">Western science</span></div>
+        <p class="know-tx">${d.sci}</p>
+      </div>
+      <div class="know-card know-iq">
+        <div class="know-hd"><span class="know-icon">&#127807;</span><span class="know-lbl">Inuit Qaujimajatuqangit</span></div>
+        <p class="know-tx">${d.iq}</p>
+      </div>
+    </div>
     <div class="nav-row">
       <button class="nav-btn" onclick="selHS(${prev})">&#8592; ${prev+1}</button>
       <span class="nav-ct">${hsVis.size}/4 explored</span>
       <button class="nav-btn" onclick="selHS(${next})">${next+1} &#8594;</button>
     </div>
-    <p style="font-size:10.5px;font-style:italic;color:var(--tx3);margin:10px 0 0">Available in Inuktitut syllabics in production.</p>`;
+    <p style="font-size:10.5px;font-style:italic;color:var(--tx3);margin:10px 0 0">IQ panel available in Inuktitut syllabics in the production build.</p>`;
 }
 
 // —— HARVEST —————————————————————————————————————————————————
@@ -996,23 +1040,33 @@ const hvo=[
   {lv:"err",lb:"Taking all 6",d:"Complete harvest. No eggs hatch. Every contribution this nest would have made — food for foxes, raptors, next year's birds — is gone. Extraction without relationship.",iq:"This is the extractive worldview made concrete. IQ names this a break in relationship with the ptarmigan, with the land, and with future generations."}
 ];
 let eggCount=0;
-function clickEgg(n){
-  const el=document.getElementById("e"+n);
-  eggCount=el.getAttribute("fill")==="#BFDBFE"?n:n+1;
-  document.getElementById("eslider").value=eggCount;
-  upEgg(eggCount);
-}
-function upEgg(v){
-  eggCount=parseInt(v);
-  document.getElementById("eLabel").textContent=v==0?"Taking 0 eggs":v==1?"Taking 1 egg":"Taking "+v+" eggs";
+const takenEggs=new Set();
+function paintEggs(){
   ["e0","e1","e2","e3","e4","e5"].forEach((id,i)=>{
     const el=document.getElementById(id);if(!el)return;
-    const taken=i<parseInt(v);
+    const taken=takenEggs.has(i);
     el.setAttribute("fill",taken?"#BFDBFE":"#FEF3C7");
     el.setAttribute("stroke",taken?"#3B82F6":"#D97706");
     el.setAttribute("opacity",taken?".5":"1");
+    el.setAttribute("aria-pressed",taken?"true":"false");
   });
-  renderLiveOut(v);
+  eggCount=takenEggs.size;
+  const sl=document.getElementById("eslider");if(sl)sl.value=eggCount;
+  const lb=document.getElementById("eLabel");
+  if(lb)lb.textContent=eggCount==0?"Taking 0 eggs":eggCount==1?"Taking 1 egg":"Taking "+eggCount+" eggs";
+  renderLiveOut(eggCount);
+}
+// Click toggles that specific egg in or out of the harvest.
+function clickEgg(n){
+  if(takenEggs.has(n))takenEggs.delete(n);else takenEggs.add(n);
+  paintEggs();
+}
+// Slider sets the count; fills that many eggs starting from the front of the nest.
+function upEgg(v){
+  v=parseInt(v);
+  takenEggs.clear();
+  for(let i=0;i<v;i++)takenEggs.add(i);
+  paintEggs();
 }
 function renderLiveOut(v){
   const lo=document.getElementById("liveOut");if(!lo)return;
@@ -1039,6 +1093,33 @@ function goHv(s){
         <div class="iq"><div class="iq-icon">&#127807;</div><div><p class="iq-label">IQ reflection</p><p class="iq-p">${o.iq}</p></div></div>
       </div>`;
   }
+  if(s===3)buildReflectChips();
+}
+
+const _hvStarters=[
+  "In my governance role, this changes…",
+  "Taking only what is needed would mean…",
+  "A decision I now see differently is…",
+  "This connects to my community because…"
+];
+function buildReflectChips(){
+  const wrap=document.getElementById("hvChips");if(!wrap||wrap.dataset.built)return;
+  wrap.dataset.built="1";
+  wrap.innerHTML=_hvStarters.map(s=>
+    `<button type="button" class="cm-pill" onclick="useStarter(this)">${s}</button>`).join("");
+  // restore any saved reflection
+  try{const v=localStorage.getItem("nccs-hv-journal");if(v){const t=document.getElementById("hvJournal");if(t)t.value=v;}}catch(e){}
+}
+function useStarter(btn){
+  const t=document.getElementById("hvJournal");if(!t)return;
+  const txt=btn.textContent.replace(/…$/,"… ");
+  t.value=t.value?t.value.replace(/\s*$/,"")+"\n"+txt:txt;
+  t.focus();saveJournal();
+}
+function saveJournal(){
+  const t=document.getElementById("hvJournal"),s=document.getElementById("hvSaved");if(!t)return;
+  try{localStorage.setItem("nccs-hv-journal",t.value);}catch(e){}
+  if(s){s.textContent=t.value.trim()?"✓ Saved on this device":"";}
 }
 
 // —— MAP —————————————————————————————————————————————————————
@@ -1093,7 +1174,7 @@ function sC(i){
   clearInterval(pTimer);pPlay=false;curCom=i;cmVis.add(i);buildPills();
   [0,1,2,3,4].forEach(j=>{
     const c=document.getElementById("cm"+j);
-    if(c)c.setAttribute("fill",j===i?"#1E3A5F":cmVis.has(j)?"#6B7280":"#E07B2A");
+    if(c)c.setAttribute("fill",j===i?"#1E3A5F":cmVis.has(j)?"#0F766E":"#E07B2A");
   });
   const c=cm[i],prev=(i+4)%5,next=(i+1)%5;
   const mi={video:"▶",audio:"🔊",photo:"🖼"}[c.mi]||"📄";
@@ -1108,7 +1189,11 @@ function sC(i){
         <div style="width:28px;height:28px;border-radius:8px;background:var(--bl-lt);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">${mi}</div>
         <p style="font-size:12.5px;font-weight:600;margin:0">${c.ms}</p>
       </div>
-      ${c.secs>0?`<div class="player"><button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button><div class="track"><div class="track-fill" id="trackFill" style="width:0%"></div></div><span class="play-time" id="playTime">0:00 / ${fmtT(c.secs)}</span></div>`:`<p style="font-size:11px;font-style:italic;color:var(--tx3);margin:0">Photo series embeds in this panel.</p>`}
+      ${c.secs>0?`<div class="player"><button class="play-btn" id="playBtn" onclick="togglePlay()" aria-label="Play or pause ${c.ms}">▶</button><div class="track"><div class="track-fill" id="trackFill" style="width:0%"></div></div><span class="play-time" id="playTime">0:00 / ${fmtT(c.secs)}</span></div>`:`<p style="font-size:11px;font-style:italic;color:var(--tx3);margin:0">Photo series embeds in this panel.</p>`}
+      <details style="margin-top:10px">
+        <summary style="font-size:11px;font-weight:600;color:var(--bl);cursor:pointer">Transcript &amp; captions</summary>
+        <p style="font-size:11.5px;color:var(--tx2);line-height:1.55;margin:7px 0 0">Full transcript and Inuktitut captions for &ldquo;${c.ms}&rdquo; will appear here in the production build, so the story is accessible without audio or video. <span style="color:var(--tx3);font-style:italic">(Placeholder &mdash; media not yet sourced.)</span></p>
+      </details>
     </div>
     <div class="iq"><div class="iq-icon">&#127807;</div><div><p class="iq-label">Why this differs from the Climate Atlas</p><p class="iq-p" style="font-size:11.5px">${c.df}</p></div></div>
     <div class="nav-row">
@@ -1123,7 +1208,7 @@ function toggleCompare(){
   cmpMode=!cmpMode;cmpA=-1;cmpB=-1;
   buildPills();
   if(!cmpMode){
-    [0,1,2,3,4].forEach(j=>{const c=document.getElementById("cm"+j);if(c)c.setAttribute("fill",j===curCom?"#1E3A5F":cmVis.has(j)?"#6B7280":"#E07B2A");});
+    [0,1,2,3,4].forEach(j=>{const c=document.getElementById("cm"+j);if(c)c.setAttribute("fill",j===curCom?"#1E3A5F":cmVis.has(j)?"#0F766E":"#E07B2A");});
     renderMapDefault();
   } else {
     document.getElementById("mapPanel").innerHTML=
@@ -1142,7 +1227,7 @@ function selectForCompare(i){
   else{cmpA=i;cmpB=-1;}
   [0,1,2,3,4].forEach(j=>{
     const c=document.getElementById("cm"+j);if(!c)return;
-    c.setAttribute("fill",j===cmpA||j===cmpB?"#1E3A5F":cmVis.has(j)?"#6B7280":"#E07B2A");
+    c.setAttribute("fill",j===cmpA||j===cmpB?"#1E3A5F":cmVis.has(j)?"#0F766E":"#E07B2A");
   });
   buildPills();
   if(cmpA!==-1&&cmpB!==-1){renderCompare(cmpA,cmpB);}
@@ -1158,17 +1243,18 @@ function selectForCompare(i){
 function renderCompare(a,b){
   const ca=cm[a],cb=cm[b];
   document.getElementById("mapPanel").innerHTML=
-    `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-      <p style="font-size:11.5px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin:0">Comparing</p>
+    `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <p style="font-size:11.5px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin:0">How each story differs from the Atlas</p>
       <button class="ghost ghost-sm" onclick="toggleCompare()" style="font-size:11px;padding:3px 10px">&#10005; Exit</button>
     </div>
+    <p style="font-size:11px;color:var(--tx3);margin:0 0 12px;line-height:1.5">The Climate Atlas would show both as data trends. Here is what each community is actually living.</p>
     <div style="margin-bottom:12px">
       <div style="display:flex;align-items:center;gap:7px;margin-bottom:7px">
         <div style="width:9px;height:9px;border-radius:50%;background:var(--mn);flex-shrink:0"></div>
         <p style="font-size:13.5px;font-weight:700;margin:0">${ca.nm}</p>
         <span class="badge b-or" style="margin-left:auto;font-size:10px">${ca.tg}</span>
       </div>
-      <p style="font-size:12px;color:var(--tx2);line-height:1.55;padding-left:16px">${ca.st.substring(0,150)}&#8230;</p>
+      <p style="font-size:12px;color:var(--tx2);line-height:1.55;padding-left:16px">${ca.df}</p>
     </div>
     <div style="height:1px;background:var(--bd);margin:12px 0"></div>
     <div style="margin-bottom:14px">
@@ -1177,7 +1263,7 @@ function renderCompare(a,b){
         <p style="font-size:13.5px;font-weight:700;margin:0">${cb.nm}</p>
         <span class="badge b-or" style="margin-left:auto;font-size:10px">${cb.tg}</span>
       </div>
-      <p style="font-size:12px;color:var(--tx2);line-height:1.55;padding-left:16px">${cb.st.substring(0,150)}&#8230;</p>
+      <p style="font-size:12px;color:var(--tx2);line-height:1.55;padding-left:16px">${cb.df}</p>
     </div>
     <div class="iq" style="margin-bottom:14px"><div class="iq-icon" style="width:24px;height:24px;font-size:11px">IQ</div><div><p class="iq-label">Regional IQ thread</p><p class="iq-p" style="font-size:11.5px">Both communities are experiencing shifts in their relationship with the land. The specific manifestations differ by region — but IQ principles of reading and responding to environmental signals apply across all three regions of Nunavut.</p></div></div>
     <div style="display:flex;gap:8px">
@@ -1210,18 +1296,22 @@ const cards=[
 const pl={};let selCard=null;
 const hints={};
 
+// Hint level 2 asks the deciding question rather than pointing at the answer zone.
+const reasonHints={
+  mit:"Ask yourself: does this cut greenhouse gases at the source? Reducing the cause is mitigation.",
+  ada:"Ask yourself: does this respond to an impact that is already happening? Adjusting to it is adaptation.",
+  both:"Ask yourself: does it cut emissions AND build resilience at the same time? If so, it is both."
+};
 function showHint(cardId){
-  const level=(hints[cardId]||0)+1;
+  const level=Math.min((hints[cardId]||0)+1,2);
   hints[cardId]=level;
   const card=cards.find(c=>c.id===cardId);if(!card)return;
   document.querySelectorAll(".zone-hdr").forEach(h=>h.classList.remove("hint-header"));
   document.querySelectorAll(".szone").forEach(z=>z.classList.remove("zone-hint"));
+  // Level 1: nudge toward the right column. Level 2: surface the reasoning question (rendered on the card in bDeck).
   if(level===1){
     const z=document.getElementById("z-"+card.co);
     if(z&&z.previousElementSibling)z.previousElementSibling.classList.add("hint-header");
-  } else {
-    const z=document.getElementById("z-"+card.co);
-    if(z)z.classList.add("zone-hint");
   }
   bDeck();
 }
@@ -1232,14 +1322,23 @@ function bDeck(){
     if(pl[c.id])return;
     const el=document.createElement("div");el.id=c.id;el.draggable=true;el.dataset.id=c.id;
     el.className="sort-card"+(selCard===c.id?" sort-sel":"");
+    el.setAttribute("tabindex","0");el.setAttribute("role","button");
+    el.setAttribute("aria-pressed",selCard===c.id?"true":"false");
+    el.setAttribute("aria-label",c.tx+(selCard===c.id?" — selected, choose a column":" — activate to select"));
     const hintLevel=hints[c.id]||0;
     const hintLabel=hintLevel===0?"&#128161;":hintLevel===1?"&#128161;&#183;1":"&#128161;&#183;2";
-    el.innerHTML=`<span class="grip">&#x2807;</span><span style="flex:1;line-height:1.45">${c.tx}</span><button onclick="event.stopPropagation();showHint('${c.id}')" title="Get a hint (${hintLevel}/2 used)" style="flex-shrink:0;background:none;border:1px solid var(--bd);border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;color:${hintLevel>0?"var(--br)":"var(--tx3)"};transition:all .15s;font-weight:${hintLevel>0?600:400}">${hintLabel}</button>`;
-    el.addEventListener("click",()=>{
+    const reason=hintLevel>=2?`<div style="flex-basis:100%;font-size:11px;color:var(--am);background:var(--am-lt);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;line-height:1.5">${reasonHints[c.co]}</div>`:"";
+    el.innerHTML=`<span class="grip">&#x2807;</span><span style="flex:1;line-height:1.45">${c.tx}</span><button onclick="event.stopPropagation();showHint('${c.id}')" aria-label="Get a hint for this card, ${hintLevel} of 2 used" title="Get a hint (${hintLevel}/2 used)" style="flex-shrink:0;background:none;border:1px solid var(--bd);border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;color:${hintLevel>0?"var(--br)":"var(--tx3)"};transition:all .15s;font-weight:${hintLevel>0?600:400}">${hintLabel}</button>${reason}`;
+    el.style.flexWrap="wrap";
+    const selectCard=()=>{
       selCard=selCard===c.id?null:c.id;
       const hint=document.getElementById("selHint");
-      if(hint)hint.textContent=selCard?`"${c.tx.substring(0,40)}…" selected — click a column to place it`:"Click a card to select it, then click a column.";
+      if(hint)hint.textContent=selCard?`"${c.tx.substring(0,40)}…" selected — choose a column to place it`:"Click a card to select it, then click a column.";
       bDeck();
+    };
+    el.addEventListener("click",selectCard);
+    el.addEventListener("keydown",e=>{
+      if(e.key==="Enter"||e.key===" "){e.preventDefault();selectCard();}
     });
     el.addEventListener("dragstart",e=>{
       e.dataTransfer.setData("text",c.id);
@@ -1262,10 +1361,18 @@ function rZones(){
       const ok=c.co===z;
       const el=document.createElement("div");
       el.style.cssText=`border-radius:var(--r-xs);padding:9px 11px;font-size:12.5px;line-height:1.45;background:${ok?"var(--gr-lt)":"var(--rd-lt)"};color:${ok?"var(--gr)":"var(--rd)"};border:1px solid ${ok?"var(--gr-bd)":"var(--rd-bd)"}`;
-      el.innerHTML=`<div style="display:flex;align-items:flex-start;gap:6px;margin-bottom:${ok?0:6}px"><span style="flex-shrink:0;font-size:14px">${ok?"✓":"✗"}</span><span style="font-weight:500">${c.tx}</span></div>${!ok?`<p style="font-size:11px;margin:0;font-style:italic;padding-left:20px;opacity:.88">${c.ex}</p>`:""}`;
+      const moveBack=!ok?`<button onclick="returnCard('${c.id}')" style="margin-top:7px;margin-left:20px;background:var(--surf);border:1px solid var(--rd-bd);color:var(--rd);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit">&#8635; Move back &amp; try again</button>`:"";
+      el.innerHTML=`<div style="display:flex;align-items:flex-start;gap:6px;margin-bottom:${ok?0:6}px"><span style="flex-shrink:0;font-size:14px">${ok?"✓":"✗"}</span><span style="font-weight:500">${c.tx}</span></div>${!ok?`<p style="font-size:11px;margin:0;font-style:italic;padding-left:20px;opacity:.88">${c.ex}</p>${moveBack}`:""}`;
       zn.appendChild(el);
     });
   });
+}
+
+// Non-punitive: a wrongly-placed card can always go straight back to the deck.
+function returnCard(id){
+  delete pl[id];
+  const sd=document.getElementById("sDone");if(sd)sd.style.display="none";
+  bDeck();rZones();
 }
 
 function zoneClick(z){
@@ -1338,6 +1445,7 @@ const pins=[
   {lb:"Effective climate response integrates IQ and governance",rg:"Qikiqtani",q:"Which approach best reflects the integration of IQ and governance taught in this course?",opts:["Scientific data collection shared with government agencies","Revitalising Inuit land practices alongside Nunavut Land Claim Agreement implementation","Publishing international reports about Arctic climate policy"],co:1,ex:"The NLCA and Inuit governance structures are the instruments through which IQ-grounded climate responses can be implemented at scale. Cultural revitalisation and governance are not separate strategies — they are the same strategy."}
 ];
 const ans={};
+const _regionCommunities={Kitikmeot:"Cambridge Bay",Kivalliq:"Arviat and Rankin Inlet",Qikiqtani:"Iqaluit and Pond Inlet"};
 function sP(i){
   const p=pins[i],done=ans[i]!==undefined,prev=(i+4)%5,next=(i+1)%5;
   document.getElementById("pinPanel").innerHTML=
@@ -1346,7 +1454,8 @@ function sP(i){
       ${done?`<span class="badge ${ans[i]===p.co?"b-gr":"b-re"}">${ans[i]===p.co?"✓ Correct":"✗ Incorrect"}</span>`:""}
     </div>
     <p style="font-size:14px;font-weight:700;margin:0 0 10px;line-height:1.3;color:var(--tx1)">${p.lb}</p>
-    <p style="font-size:12.5px;color:var(--tx2);margin:0 0 12px;line-height:1.55">${p.q}</p>
+    <p style="font-size:12.5px;color:var(--tx2);margin:0 0 8px;line-height:1.55">${p.q}</p>
+    <p style="font-size:11px;color:var(--tx3);font-style:italic;margin:0 0 12px">&#8617; Connects to the ${p.rg} stories you explored on the community map (${_regionCommunities[p.rg]}).</p>
     <div>${p.opts.map((o,j)=>{
       let cls="qbtn";
       if(done&&j===p.co)cls+=" correct";
@@ -1550,6 +1659,23 @@ sw=function(n){
 };
 
 bDeck();buildPills();
+
+// —— ACCESSIBILITY: make non-button [onclick] elements keyboard-operable ————
+// Covers SVG hotspots, eggs, map markers, quiz pins, and the sort drop zones.
+function a11yify(root){
+  (root||document).querySelectorAll("[onclick]").forEach(el=>{
+    const t=el.tagName;
+    if(t==="BUTTON"||t==="A"||t==="INPUT"||t==="SELECT"||t==="TEXTAREA")return;
+    if(el.getAttribute("data-a11y"))return;
+    el.setAttribute("data-a11y","1");
+    if(!el.hasAttribute("tabindex"))el.setAttribute("tabindex","0");
+    if(!el.hasAttribute("role"))el.setAttribute("role","button");
+    el.addEventListener("keydown",e=>{
+      if(e.key==="Enter"||e.key===" "||e.key==="Spacebar"){e.preventDefault();el.dispatchEvent(new MouseEvent("click",{bubbles:true}));}
+    });
+  });
+}
+a11yify();
 
 // —— MOBILE STEPPER ——————————————————————————————————————————
 const _actTitles = ["Greenhouse effect", "Worldview harvest", "Community map", "Sort activity", "Closing summary"];
