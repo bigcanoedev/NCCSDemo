@@ -198,6 +198,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .know-sci .know-tx{color:#1E3A8A}
 .know-iq .know-tx{color:#047857}
 
+/* Greenhouse activity: diagram + tabbed side panel, sized to fit one screen */
+.gh-layout{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
+.gh-diagram{align-self:start}
+.gh-diagram svg{max-height:56vh}
+.gh-side{display:flex;flex-direction:column;min-width:0}
+.gh-tabs{display:flex;gap:6px;margin-bottom:10px}
+.gh-tab{flex:1;padding:8px 6px;border:1px solid var(--bd);background:var(--surf);border-radius:var(--r-xs);font-family:inherit;font-size:12px;font-weight:600;color:var(--tx2);cursor:pointer;transition:all .15s}
+.gh-tab:hover:not(.on){background:#F3EFE8}
+.gh-tab.on{background:var(--mn);color:#fff;border-color:var(--mn)}
+.gh-pane{display:none}
+.gh-pane.on{display:block}
+.gh-pane.gh-scroll{max-height:60vh;overflow:auto;padding-right:2px}
+@media (max-width:680px){.gh-layout{grid-template-columns:1fr!important}.gh-diagram svg,.gh-pane.gh-scroll{max-height:none}}
+
 /* Greenhouse simulator */
 .gh-sim{margin-top:18px;border:1px solid var(--bd);border-top:3px solid var(--br);border-radius:var(--r);padding:18px 20px;background:var(--surf);box-shadow:var(--sh-sm)}
 .gh-sim-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px}
@@ -394,8 +408,8 @@ svg [tabindex]:focus{outline:3px solid var(--mn);outline-offset:2px}
   </div>
 </div>
       <div class="act-body">
-<div style="display:grid;grid-template-columns:1fr 306px;gap:20px;align-items:start">
-    <div class="card-bare">
+<div class="gh-layout">
+    <div class="card-bare gh-diagram">
       <svg viewBox="0 0 500 345" width="100%" style="display:block" id="ghSvg" role="group" aria-label="Greenhouse effect diagram with four explorable zones">
   <defs>
     <marker id="ay" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0L7,3.5L0,7Z" fill="#B45309"/></marker>
@@ -513,73 +527,61 @@ svg [tabindex]:focus{outline:3px solid var(--mn);outline-offset:2px}
         <span style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--tx3)"><span style="width:18px;border-top:2px dashed #CBD5E1;display:inline-block"></span>Partial / escaped</span>
       </div>
     </div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div id="hsPanel" class="card" style="min-height:300px" role="region" aria-live="polite" aria-label="Hotspot explanation">
-        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:230px;gap:14px;text-align:center">
-          <div style="width:56px;height:56px;border-radius:50%;background:var(--br-lt);display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:var(--sh)">&#128070;</div>
-          <div><p style="font-size:15px;font-weight:700;color:var(--tx1);margin:0 0 6px">Select a hotspot</p><p style="font-size:12.5px;color:var(--tx3);max-width:165px;margin:0 auto;line-height:1.5">Click any numbered region on the diagram to explore it</p></div>
-        </div>
-        <div style="display:flex;justify-content:center;gap:16px;padding-top:14px;border-top:1px solid var(--bd-lt)">
-          <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx3)"><span style="width:9px;height:9px;border-radius:50%;background:var(--br);display:inline-block"></span>Unvisited</span>
-          <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx3)"><span style="width:9px;height:9px;border-radius:50%;background:#059669;display:inline-block"></span>Visited</span>
-        </div>
+    <div class="gh-side">
+      <div class="gh-tabs" role="tablist" aria-label="Greenhouse activity mode">
+        <button class="gh-tab on" id="ghTabExplore" role="tab" aria-selected="true" onclick="ghTab('explore')">&#128269; Explore zones</button>
+        <button class="gh-tab" id="ghTabSim" role="tab" aria-selected="false" onclick="ghTab('sim')">&#129514; Simulate</button>
       </div>
-      <p style="font-size:11px;color:var(--tx3);font-style:italic;line-height:1.5;padding:0 2px">Full panel available in Inuktitut syllabics in the production build.</p>
-    </div>
-  </div>
 
-  <!-- Greenhouse simulator -->
-  <div class="gh-sim">
-    <div class="gh-sim-head">
-      <span class="gh-sim-ico">&#129514;</span>
-      <div>
-        <p class="gh-sim-title">Try it: adjust the system</p>
-        <p class="gh-sim-sub">Change the greenhouse-gas level and the Arctic sea ice, then watch the diagram above respond.</p>
+      <div id="ghPaneExplore" class="gh-pane on gh-scroll">
+        <div id="hsPanel" class="card" style="min-height:262px" role="region" aria-live="polite" aria-label="Hotspot explanation">
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:210px;gap:14px;text-align:center">
+            <div style="width:52px;height:52px;border-radius:50%;background:var(--br-lt);display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:var(--sh)">&#128070;</div>
+            <div><p style="font-size:15px;font-weight:700;color:var(--tx1);margin:0 0 6px">Select a hotspot</p><p style="font-size:12.5px;color:var(--tx3);max-width:175px;margin:0 auto;line-height:1.5">Click any numbered region on the diagram to explore it</p></div>
+          </div>
+          <div style="display:flex;justify-content:center;gap:16px;padding-top:14px;border-top:1px solid var(--bd-lt)">
+            <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx3)"><span style="width:9px;height:9px;border-radius:50%;background:var(--br);display:inline-block"></span>Unvisited</span>
+            <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx3)"><span style="width:9px;height:9px;border-radius:50%;background:#059669;display:inline-block"></span>Visited</span>
+          </div>
+        </div>
+        <p style="font-size:11px;color:var(--tx3);font-style:italic;line-height:1.5;padding:8px 2px 0">Full panel available in Inuktitut syllabics in the production build.</p>
       </div>
-    </div>
-    <div class="gh-sim-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start">
-      <div>
-        <label for="ghPpm" style="font-size:12px;font-weight:600;color:var(--tx2);display:flex;justify-content:space-between;margin-bottom:10px">Greenhouse gases <strong id="ghPpmVal" style="color:var(--br)">280 ppm</strong></label>
+
+      <div id="ghPaneSim" class="gh-pane gh-scroll" role="region" aria-label="Greenhouse simulator">
+        <p style="font-size:11.5px;color:var(--tx2);margin:0 0 14px;line-height:1.45">Adjust the system, then watch the diagram respond.</p>
+        <label for="ghPpm" style="font-size:11.5px;font-weight:600;color:var(--tx2);display:flex;justify-content:space-between;margin-bottom:9px">Greenhouse gases <strong id="ghPpmVal" style="color:var(--br)">280 ppm</strong></label>
         <input type="range" id="ghPpm" class="gh-range" min="280" max="500" value="280" step="5" oninput="setGhPpm(this.value)" aria-label="Greenhouse gas concentration in parts per million"/>
-        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tx3);margin-top:6px">
-          <span>280<br>pre-industrial</span><span style="text-align:center">420<br>today</span><span style="text-align:right">500</span>
+        <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--tx3);margin-top:5px"><span>280<br>pre-ind.</span><span style="text-align:center">420<br>today</span><span style="text-align:right">500</span></div>
+        <p style="font-size:11.5px;font-weight:600;color:var(--tx2);margin:15px 0 8px">Arctic sea ice</p>
+        <div role="group" aria-label="Sea ice state" style="display:flex;border:1px solid var(--bd);border-radius:var(--r-xs);overflow:hidden;box-shadow:var(--sh-sm)">
+          <button id="ghIceBtn" type="button" class="gh-seg" style="flex:1" onclick="setGhIce(true)" aria-pressed="true">&#10052;&#65039; Sea ice</button>
+          <button id="ghOceanBtn" type="button" class="gh-seg" style="flex:1" onclick="setGhIce(false)" aria-pressed="false">&#127754; Open ocean</button>
         </div>
-      </div>
-      <div>
-        <p style="font-size:12px;font-weight:600;color:var(--tx2);margin:0 0 10px">Arctic sea ice</p>
-        <div role="group" aria-label="Sea ice state" style="display:inline-flex;border:1px solid var(--bd);border-radius:var(--r-xs);overflow:hidden;box-shadow:var(--sh-sm)">
-          <button id="ghIceBtn" type="button" class="gh-seg" onclick="setGhIce(true)" aria-pressed="true">&#10052;&#65039; Sea ice</button>
-          <button id="ghOceanBtn" type="button" class="gh-seg" onclick="setGhIce(false)" aria-pressed="false">&#127754; Open ocean</button>
-        </div>
-        <p style="font-size:11px;color:var(--tx3);margin:9px 0 0;line-height:1.45" id="ghAlbedo" aria-live="polite">Bright ice reflects most sunlight back to space (high albedo).</p>
-      </div>
-    </div>
-    <div class="gh-sim-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px">
-      <div class="gh-stat">
-        <p class="gh-stat-lbl">Heat trapped near surface</p>
-        <div style="height:10px;background:#E2E8F0;border-radius:5px;overflow:hidden"><div id="ghTrapBar" style="height:100%;width:0%;background:linear-gradient(90deg,#F59E0B,#DC2626);border-radius:5px;transition:width .4s ease"></div></div>
-        <p style="font-size:10.5px;color:var(--tx3);margin:8px 0 0" id="ghTrapNote">Most outgoing heat still escapes to space.</p>
-      </div>
-      <div class="gh-stat">
-        <p class="gh-stat-lbl">Surface temperature</p>
-        <div style="display:flex;align-items:center;gap:12px">
-          <svg width="30" height="66" viewBox="0 0 30 66" aria-hidden="true" style="flex-shrink:0">
+        <p style="font-size:10.5px;color:var(--tx3);margin:8px 0 0;line-height:1.4" id="ghAlbedo" aria-live="polite">Bright ice reflects most sunlight back to space (high albedo).</p>
+        <div class="gh-stat" style="margin-top:14px;display:flex;align-items:center;gap:11px">
+          <svg width="28" height="60" viewBox="0 0 30 66" aria-hidden="true" style="flex-shrink:0">
             <rect x="11" y="4" width="8" height="40" rx="4" fill="#E2E8F0"/>
             <rect id="ghThermoFill" x="11" y="44" width="8" height="0" rx="4" fill="#1D4ED8" style="transition:all .4s ease"/>
             <rect x="11" y="38" width="8" height="11" fill="#1D4ED8" id="ghThermoStem" style="transition:fill .4s ease"/>
             <circle cx="15" cy="54" r="10" fill="#1D4ED8" id="ghThermoBulb" style="transition:fill .4s ease"/>
           </svg>
-          <div>
-            <p style="margin:0;font-size:24px;font-weight:800;line-height:1;color:#1D4ED8" id="ghTemp" aria-live="polite">+0.0&#176;C</p>
-            <p style="font-size:10.5px;color:var(--tx3);margin:4px 0 0">vs. pre-industrial</p>
+          <div style="flex:1">
+            <p class="gh-stat-lbl" style="margin:0 0 3px">Surface temperature</p>
+            <p style="margin:0;font-size:22px;font-weight:800;line-height:1;color:#1D4ED8" id="ghTemp" aria-live="polite">+0.0&#176;C</p>
+            <p style="font-size:10px;color:var(--tx3);margin:3px 0 0">vs. pre-industrial</p>
           </div>
         </div>
+        <div class="gh-stat" style="margin-top:10px">
+          <p class="gh-stat-lbl">Heat trapped near surface</p>
+          <div style="height:9px;background:#E2E8F0;border-radius:5px;overflow:hidden"><div id="ghTrapBar" style="height:100%;width:0%;background:linear-gradient(90deg,#F59E0B,#DC2626);border-radius:5px;transition:width .4s ease"></div></div>
+          <p style="font-size:10.5px;color:var(--tx3);margin:8px 0 0" id="ghTrapNote">Most outgoing heat still escapes to space.</p>
+        </div>
+        <div id="ghConsequence" style="margin-top:12px;border-left:4px solid var(--br);border-radius:0 var(--r-sm) var(--r-sm) 0;background:#FAFAF8;padding:10px 13px" aria-live="polite">
+          <p style="font-size:12px;color:var(--tx2);margin:0;line-height:1.55">A near pre-industrial balance: most outgoing heat escapes to space and bright sea ice reflects sunlight away.</p>
+        </div>
+        <div class="iq" style="margin-top:10px;padding:10px 12px"><div class="iq-icon" style="width:24px;height:24px;font-size:11px">&#127807;</div><div><p class="iq-label">IQ connection</p><p class="iq-p" style="font-size:11px">Inuit knowledge holders documented later freeze-up and earlier break-up before instruments confirmed this warming &#8212; recorded first.</p></div></div>
       </div>
     </div>
-    <div id="ghConsequence" style="margin-top:14px;border-left:4px solid var(--br);border-radius:0 var(--r) var(--r) 0;background:#FAFAF8;padding:12px 16px" aria-live="polite">
-      <p style="font-size:12.5px;color:var(--tx2);margin:0;line-height:1.6">A near pre-industrial balance: most outgoing heat escapes to space and bright sea ice reflects sunlight away.</p>
-    </div>
-    <div class="iq" style="margin-top:12px"><div class="iq-icon">&#127807;</div><div><p class="iq-label">IQ connection</p><p class="iq-p" style="font-size:11.5px">Inuit knowledge holders documented later freeze-up, earlier break-up, and thinning ice before instruments confirmed the warming this simulation models &#8212; lived observation of the same system, recorded first.</p></div></div>
   </div>
   </div>
       <div class="act-footer" id="footer0">
@@ -1099,6 +1101,7 @@ function selHS(i){
   });
   const svg=document.getElementById("ghSvg");if(svg)svg.setAttribute("data-focus",i);
   renderHSPanel(i);
+  if(typeof ghTab==="function")ghTab("explore");   // reading a hotspot shows the Explore panel
 }
 function renderHSPanel(i){
   const d=hsd[i],prev=(i+3)%4,next=(i+1)%4;
@@ -1174,8 +1177,23 @@ function ghRender(){
     else if(!ghIceOn&&ghPPM>=420) msg="Compounding change: more greenhouse gases trap heat <em>and</em> the dark ocean absorbs more sunlight &#8212; the Arctic warms several times faster than the global average.";
     else if(!ghIceOn) msg="With the sea ice gone, the dark ocean absorbs far more sunlight. Less is reflected, so the surface keeps warming &#8212; the albedo feedback loop.";
     else msg="More greenhouse gases absorb and re-emit outgoing heat, so less escapes to space and the surface warms.";
-    cons.innerHTML='<p style="font-size:12.5px;color:var(--tx2);margin:0;line-height:1.6">'+msg+"</p>";
+    cons.innerHTML='<p style="font-size:12px;color:var(--tx2);margin:0;line-height:1.55">'+msg+"</p>";
   }
+}
+
+// Hide the simulator overlays so hotspot reading happens on a clean diagram.
+function ghClearSim(){
+  ["ghWarmth","ghExtraMol","ghTrap","ghEscape","ghReflect","ghIce"].forEach(id=>{
+    const e=document.getElementById(id);if(e)e.style.opacity="0";
+  });
+}
+// Switch the side panel between "Explore zones" (hotspot reader) and "Simulate".
+function ghTab(which){
+  const ex=which!=="sim";
+  const set=(id,on)=>{const e=document.getElementById(id);if(e){e.classList.toggle("on",on);if(e.getAttribute("role")==="tab")e.setAttribute("aria-selected",on?"true":"false");}};
+  set("ghPaneExplore",ex);set("ghPaneSim",!ex);
+  set("ghTabExplore",ex);set("ghTabSim",!ex);
+  if(ex)ghClearSim(); else ghRender();
 }
 
 // —— HARVEST —————————————————————————————————————————————————
@@ -1927,7 +1945,7 @@ function a11yify(root){
   });
 }
 a11yify();
-ghRender();   // render the greenhouse simulator's baseline (280 ppm, sea ice on)
+ghClearSim();   // start in Explore mode with a clean diagram; Simulate tab renders on demand
 
 // —— MOBILE STEPPER ——————————————————————————————————————————
 const _actTitles = ["Greenhouse effect", "Worldview harvest", "Community map", "Sort activity", "Closing summary"];
