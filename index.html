@@ -416,7 +416,7 @@ svg [tabindex]:focus{outline:3px solid var(--mn);outline-offset:2px}
     <marker id="ar" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0L7,3.5L0,7Z" fill="#B91C1C"/></marker>
     <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#DBEAFE"/><stop offset="100%" stop-color="#EFF6FF"/></linearGradient>
     <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#DCFCE7"/><stop offset="100%" stop-color="#F0FDF4"/></linearGradient>
-    <linearGradient id="warmGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FDBA74"/><stop offset="55%" stop-color="#FB7185"/><stop offset="100%" stop-color="#EF4444"/></linearGradient>
+    <linearGradient id="warmGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FDBA74"/><stop offset="60%" stop-color="#FB923C"/><stop offset="100%" stop-color="#F87171"/></linearGradient>
     <filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
   </defs>
 
@@ -533,7 +533,7 @@ svg [tabindex]:focus{outline:3px solid var(--mn);outline-offset:2px}
         <button class="gh-tab" id="ghTabSim" role="tab" aria-selected="false" onclick="ghTab('sim')">&#129514; Simulate</button>
       </div>
 
-      <div id="ghPaneExplore" class="gh-pane on gh-scroll">
+      <div id="ghPaneExplore" class="gh-pane on">
         <div id="hsPanel" class="card" style="min-height:262px" role="region" aria-live="polite" aria-label="Hotspot explanation">
           <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:210px;gap:14px;text-align:center">
             <div style="width:52px;height:52px;border-radius:50%;background:var(--br-lt);display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:var(--sh)">&#128070;</div>
@@ -547,39 +547,41 @@ svg [tabindex]:focus{outline:3px solid var(--mn);outline-offset:2px}
         <p style="font-size:11px;color:var(--tx3);font-style:italic;line-height:1.5;padding:8px 2px 0">Full panel available in Inuktitut syllabics in the production build.</p>
       </div>
 
-      <div id="ghPaneSim" class="gh-pane gh-scroll" role="region" aria-label="Greenhouse simulator">
-        <p style="font-size:11.5px;color:var(--tx2);margin:0 0 14px;line-height:1.45">Adjust the system, then watch the diagram respond.</p>
-        <label for="ghPpm" style="font-size:11.5px;font-weight:600;color:var(--tx2);display:flex;justify-content:space-between;margin-bottom:9px">Greenhouse gases <strong id="ghPpmVal" style="color:var(--br)">280 ppm</strong></label>
+      <div id="ghPaneSim" class="gh-pane" role="region" aria-label="Greenhouse simulator">
+        <label for="ghPpm" style="font-size:11.5px;font-weight:600;color:var(--tx2);display:flex;justify-content:space-between;margin-bottom:7px">Greenhouse gases <strong id="ghPpmVal" style="color:var(--br)">280 ppm</strong></label>
         <input type="range" id="ghPpm" class="gh-range" min="280" max="500" value="280" step="5" oninput="setGhPpm(this.value)" aria-label="Greenhouse gas concentration in parts per million"/>
-        <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--tx3);margin-top:5px"><span>280<br>pre-ind.</span><span style="text-align:center">420<br>today</span><span style="text-align:right">500</span></div>
-        <p style="font-size:11.5px;font-weight:600;color:var(--tx2);margin:15px 0 8px">Arctic sea ice</p>
-        <div role="group" aria-label="Sea ice state" style="display:flex;border:1px solid var(--bd);border-radius:var(--r-xs);overflow:hidden;box-shadow:var(--sh-sm)">
-          <button id="ghIceBtn" type="button" class="gh-seg" style="flex:1" onclick="setGhIce(true)" aria-pressed="true">&#10052;&#65039; Sea ice</button>
-          <button id="ghOceanBtn" type="button" class="gh-seg" style="flex:1" onclick="setGhIce(false)" aria-pressed="false">&#127754; Open ocean</button>
-        </div>
-        <p style="font-size:10.5px;color:var(--tx3);margin:8px 0 0;line-height:1.4" id="ghAlbedo" aria-live="polite">Bright ice reflects most sunlight back to space (high albedo).</p>
-        <div class="gh-stat" style="margin-top:14px;display:flex;align-items:center;gap:11px">
-          <svg width="28" height="60" viewBox="0 0 30 66" aria-hidden="true" style="flex-shrink:0">
-            <rect x="11" y="4" width="8" height="40" rx="4" fill="#E2E8F0"/>
-            <rect id="ghThermoFill" x="11" y="44" width="8" height="0" rx="4" fill="#1D4ED8" style="transition:all .4s ease"/>
-            <rect x="11" y="38" width="8" height="11" fill="#1D4ED8" id="ghThermoStem" style="transition:fill .4s ease"/>
-            <circle cx="15" cy="54" r="10" fill="#1D4ED8" id="ghThermoBulb" style="transition:fill .4s ease"/>
-          </svg>
-          <div style="flex:1">
-            <p class="gh-stat-lbl" style="margin:0 0 3px">Surface temperature</p>
-            <p style="margin:0;font-size:22px;font-weight:800;line-height:1;color:#1D4ED8" id="ghTemp" aria-live="polite">+0.0&#176;C</p>
-            <p style="font-size:10px;color:var(--tx3);margin:3px 0 0">vs. pre-industrial</p>
+        <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--tx3);margin-top:4px"><span>280<br>pre-ind.</span><span style="text-align:center">420<br>today</span><span style="text-align:right">500</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin:13px 0 7px">
+          <span style="font-size:11.5px;font-weight:600;color:var(--tx2)">Arctic sea ice</span>
+          <div role="group" aria-label="Sea ice state" style="display:flex;border:1px solid var(--bd);border-radius:var(--r-xs);overflow:hidden;box-shadow:var(--sh-sm)">
+            <button id="ghIceBtn" type="button" class="gh-seg" onclick="setGhIce(true)" aria-pressed="true">&#10052;&#65039; Ice</button>
+            <button id="ghOceanBtn" type="button" class="gh-seg" onclick="setGhIce(false)" aria-pressed="false">&#127754; Ocean</button>
           </div>
         </div>
-        <div class="gh-stat" style="margin-top:10px">
-          <p class="gh-stat-lbl">Heat trapped near surface</p>
+        <p style="font-size:10.5px;color:var(--tx3);margin:0;line-height:1.4" id="ghAlbedo" aria-live="polite">Bright ice reflects most sunlight back to space (high albedo).</p>
+        <div style="display:flex;gap:10px;margin-top:12px">
+          <div class="gh-stat" style="flex:1;display:flex;align-items:center;gap:9px">
+            <svg width="24" height="52" viewBox="0 0 30 66" aria-hidden="true" style="flex-shrink:0">
+              <rect x="11" y="4" width="8" height="40" rx="4" fill="#E2E8F0"/>
+              <rect id="ghThermoFill" x="11" y="44" width="8" height="0" rx="4" fill="#1D4ED8" style="transition:all .4s ease"/>
+              <rect x="11" y="38" width="8" height="11" fill="#1D4ED8" id="ghThermoStem" style="transition:fill .4s ease"/>
+              <circle cx="15" cy="54" r="10" fill="#1D4ED8" id="ghThermoBulb" style="transition:fill .4s ease"/>
+            </svg>
+            <div>
+              <p style="margin:0;font-size:20px;font-weight:800;line-height:1;color:#1D4ED8" id="ghTemp" aria-live="polite">+0.0&#176;C</p>
+              <p style="font-size:9.5px;color:var(--tx3);margin:3px 0 0">vs. pre-industrial</p>
+            </div>
+          </div>
+        </div>
+        <div class="gh-stat" style="margin-top:9px">
+          <p class="gh-stat-lbl" style="margin:0 0 7px">Heat trapped near surface</p>
           <div style="height:9px;background:#E2E8F0;border-radius:5px;overflow:hidden"><div id="ghTrapBar" style="height:100%;width:0%;background:linear-gradient(90deg,#F59E0B,#DC2626);border-radius:5px;transition:width .4s ease"></div></div>
-          <p style="font-size:10.5px;color:var(--tx3);margin:8px 0 0" id="ghTrapNote">Most outgoing heat still escapes to space.</p>
+          <p style="font-size:10px;color:var(--tx3);margin:7px 0 0" id="ghTrapNote">Most outgoing heat still escapes to space.</p>
         </div>
-        <div id="ghConsequence" style="margin-top:12px;border-left:4px solid var(--br);border-radius:0 var(--r-sm) var(--r-sm) 0;background:#FAFAF8;padding:10px 13px" aria-live="polite">
-          <p style="font-size:12px;color:var(--tx2);margin:0;line-height:1.55">A near pre-industrial balance: most outgoing heat escapes to space and bright sea ice reflects sunlight away.</p>
+        <div id="ghConsequence" style="margin-top:10px;border-left:4px solid var(--br);border-radius:0 var(--r-sm) var(--r-sm) 0;background:#FAFAF8;padding:9px 12px" aria-live="polite">
+          <p style="font-size:11.5px;color:var(--tx2);margin:0;line-height:1.5">A near pre-industrial balance: most outgoing heat escapes to space and bright sea ice reflects sunlight away.</p>
         </div>
-        <div class="iq" style="margin-top:10px;padding:10px 12px"><div class="iq-icon" style="width:24px;height:24px;font-size:11px">&#127807;</div><div><p class="iq-label">IQ connection</p><p class="iq-p" style="font-size:11px">Inuit knowledge holders documented later freeze-up and earlier break-up before instruments confirmed this warming &#8212; recorded first.</p></div></div>
+        <p style="font-size:10.5px;color:var(--tl);margin:9px 0 0;line-height:1.45"><strong>&#127807; IQ:</strong> Inuit documented later freeze-up and earlier break-up before instruments confirmed this warming &#8212; recorded first.</p>
       </div>
     </div>
   </div>
@@ -1156,7 +1158,7 @@ function ghRender(){
   const warmFrac=clamp(temp/2.6);              // 0..1 across the model's range
   const heatColor=temp<0.5?"#1D4ED8":temp<1.3?"#D97706":"#DC2626";
   // The whole scene visibly warms as temperature climbs.
-  set("ghWarmth",(warmFrac*0.4).toFixed(3));
+  set("ghWarmth",(warmFrac*0.3).toFixed(3));
   const ppmEl=document.getElementById("ghPpmVal");if(ppmEl)ppmEl.textContent=ghPPM+" ppm";
   const bar=document.getElementById("ghTrapBar");if(bar)bar.style.width=(clamp(t*0.75+(ghIceOn?0:0.2))*100).toFixed(0)+"%";
   const note=document.getElementById("ghTrapNote");
